@@ -12,9 +12,8 @@ func ErrorHandler(ctx *gin.Context) {
 	for _, err := range ctx.Errors {
 		if serverError ,ok := err.Err.(*ServerError); ok {
 			ctx.JSON(serverError.Code, serverError)
-			return
+		} else {
+			ctx.Status(http.StatusInternalServerError)
 		}
 	}
-
-	ctx.JSON(http.StatusInternalServerError, "")
 }
