@@ -30,7 +30,7 @@ func (p *ProductCategoryRepository) GetById(ctx context.Context, id int) (*domai
 }
 
 func (p *ProductCategoryRepository) Update(ctx context.Context, productCategory *domain.ProductCategory) error {
-	return nil
+	return p.db.Save(productCategory).Error
 }
 
 func (p *ProductCategoryRepository) Save(ctx context.Context, productCategory *domain.ProductCategory) error {

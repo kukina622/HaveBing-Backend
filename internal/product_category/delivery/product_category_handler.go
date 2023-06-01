@@ -20,6 +20,7 @@ func Register(router *gin.RouterGroup, productCategoryUseCase domain.ProductCate
 	router.GET("/productCategory", handler.GetAll)
 	router.GET("/productCategory/:id", handler.GetById)
 	router.POST("/productCategory", handler.PostNewProductCategory)
+	router.PATCH("/productCategory", handler.Update)
 }
 
 func (handler *ProductCategoryHandler) GetAll(ctx *gin.Context) {
@@ -81,4 +82,33 @@ func (handler *ProductCategoryHandler) GetById(ctx *gin.Context) {
 	}
 
 	ctx.JSON(http.StatusOK, productCategory)
+}
+
+func (handler *ProductCategoryHandler) Update(ctx *gin.Context) {
+	var body domain.ProductCategory
+	if err := ctx.ShouldBind(&body); err != nil {
+		ctx.Error(&error.ServerError{
+			Code: http.StatusBadRequest,
+			Msg: err.Error(),
+		})
+		ctx.Abort()
+		return
+	}
+	if body.ID == 0 {
+		ctx.Error(&error.ServerError{
+			Code: http.StatusBadRequest,
+			Msg: "Missing id field",
+		})
+		ctx.Abort()
+		return
+	}
+	if err := handler.productCategoryUseCase.Update(ctx, &body); err != nil {
+		ctx.Error(&error.ServerError{
+			Code: http.StatusBadRequest,
+			Msg: err.Error(),
+		})
+		ctx.Abort()
+		return
+	}
+	ctx.Status(http.StatusOK)
 }

@@ -24,7 +24,7 @@ func (p *ProductCategoryUseCase) GetById(ctx context.Context, id int) (*domain.P
 }
 
 func (p *ProductCategoryUseCase) Update(ctx context.Context, productCategory *domain.ProductCategory) error {
-	return nil
+	return p.repo.Update(ctx, productCategory)
 }
 
 func (p *ProductCategoryUseCase) Save(ctx context.Context, productCategory *domain.ProductCategory) error {
