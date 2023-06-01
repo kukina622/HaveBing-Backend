@@ -2,6 +2,7 @@ package delivery
 
 import (
 	"HaveBing-Backend/internal/domain"
+	"HaveBing-Backend/internal/middleware/error"
 	"net/http"
 	"strconv"
 
@@ -24,9 +25,11 @@ func Register(router *gin.RouterGroup, productCategoryUseCase domain.ProductCate
 func (handler *ProductCategoryHandler) GetAll(ctx *gin.Context) {
 	productCategoryList, err := handler.productCategoryUseCase.GetAll(ctx)
 	if err != nil {
-		ctx.JSON(http.StatusNotFound, gin.H{
-			"message": err.Error(),
+		ctx.Error(&error.ServerError{
+			Code: http.StatusNotFound,
+			Msg: err.Error(),
 		})
+		ctx.Abort()
 		return
 	}
 
@@ -36,16 +39,20 @@ func (handler *ProductCategoryHandler) GetAll(ctx *gin.Context) {
 func (handler *ProductCategoryHandler) PostNewProductCategory(ctx *gin.Context) {
 	var body domain.ProductCategory
 	if err := ctx.ShouldBind(&body); err != nil {
-		ctx.JSON(http.StatusBadRequest, gin.H{
-			"message": err.Error(),
+		ctx.Error(&error.ServerError{
+			Code: http.StatusBadRequest,
+			Msg: err.Error(),
 		})
+		ctx.Abort()
 		return
 	}
 
 	if err := handler.productCategoryUseCase.Save(ctx, &body); err != nil {
-		ctx.JSON(http.StatusBadRequest, gin.H{
-			"message": err.Error(),
+		ctx.Error(&error.ServerError{
+			Code: http.StatusBadRequest,
+			Msg: err.Error(),
 		})
+		ctx.Abort()
 		return
 	}
 
@@ -55,17 +62,21 @@ func (handler *ProductCategoryHandler) PostNewProductCategory(ctx *gin.Context) 
 func (handler *ProductCategoryHandler) GetById(ctx *gin.Context) {
 	id, err := strconv.Atoi(ctx.Param("id"))
 	if err != nil {
-		ctx.JSON(http.StatusNotFound, gin.H{
-			"message": err.Error(),
+		ctx.Error(&error.ServerError{
+			Code: http.StatusBadRequest,
+			Msg: err.Error(),
 		})
+		ctx.Abort()
 		return
 	}
 
 	productCategory, err := handler.productCategoryUseCase.GetById(ctx, id)
 	if err != nil {
-		ctx.JSON(http.StatusNotFound, gin.H{
-			"message": err.Error(),
+		ctx.Error(&error.ServerError{
+			Code: http.StatusBadRequest,
+			Msg: err.Error(),
 		})
+		ctx.Abort()
 		return
 	}
 
