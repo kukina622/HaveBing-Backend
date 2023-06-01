@@ -17,7 +17,9 @@ func New(db *gorm.DB) domain.ProductCategoryRepository {
 }
 
 func (p *ProductCategoryRepository) GetAll(ctx context.Context) ([]domain.ProductCategory, error) {
-	return nil, nil
+	var productCategoryList []domain.ProductCategory
+	result := p.db.Find(&productCategoryList)
+	return productCategoryList, result.Error
 }
 
 func (p *ProductCategoryRepository) GetById(ctx context.Context, id int) (*domain.ProductCategory, error) {

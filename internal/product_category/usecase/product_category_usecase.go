@@ -16,7 +16,7 @@ func New(repo domain.ProductCategoryRepository) domain.ProductCategoryUseCase {
 }
 
 func (p *ProductCategoryUseCase) GetAll(ctx context.Context) ([]domain.ProductCategory, error) {
-	return nil, nil
+	return p.repo.GetAll(ctx)
 }
 
 func (p *ProductCategoryUseCase) GetById(ctx context.Context, id int) (*domain.ProductCategory, error) {
