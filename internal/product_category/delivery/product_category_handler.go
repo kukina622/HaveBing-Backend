@@ -19,7 +19,7 @@ func Register(router *gin.RouterGroup, productCategoryUseCase domain.ProductCate
 	}
 	router.GET("/productCategory", handler.GetAll)
 	router.GET("/productCategory/:id", handler.GetById)
-	router.POST("/productCategory", handler.PostNewProductCategory)
+	router.POST("/productCategory", handler.Save)
 	router.PATCH("/productCategory", handler.Update)
 }
 
@@ -37,7 +37,7 @@ func (handler *ProductCategoryHandler) GetAll(ctx *gin.Context) {
 	ctx.JSON(http.StatusOK, productCategoryList)
 }
 
-func (handler *ProductCategoryHandler) PostNewProductCategory(ctx *gin.Context) {
+func (handler *ProductCategoryHandler) Save(ctx *gin.Context) {
 	var body domain.ProductCategory
 	if err := ctx.ShouldBind(&body); err != nil {
 		ctx.Error(&error.ServerError{
