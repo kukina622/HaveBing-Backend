@@ -31,5 +31,5 @@ func (p *ProductCategoryRepository) Update(ctx context.Context, productCategory 
 }
 
 func (p *ProductCategoryRepository) Save(ctx context.Context, productCategory *domain.ProductCategory) error {
-	return nil
+	return p.db.Create(productCategory).Error
 }

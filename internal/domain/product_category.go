@@ -4,7 +4,7 @@ import "context"
 
 type ProductCategory struct {
 	ID           uint   `gorm:"type:int NOT NULL auto_increment;primary_key;"`
-	CategoryName string `gorm:"type:varchar(50) NOT NULL;"`
+	CategoryName string `gorm:"type:varchar(50) NOT NULL;" json:"categoryName" binding:"required"`
 }
 
 type ProductCategoryRepository interface {

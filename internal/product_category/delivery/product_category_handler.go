@@ -16,6 +16,7 @@ func Register(router *gin.RouterGroup, productCategoryUseCase domain.ProductCate
 		productCategoryUseCase: productCategoryUseCase,
 	}
 	router.GET("/productCategory", handler.GetAll)
+	router.POST("/productCategory", handler.PostNewProductCategory)
 }
 
 func (handler *ProductCategoryHandler) GetAll(ctx *gin.Context) {
@@ -30,4 +31,23 @@ func (handler *ProductCategoryHandler) GetAll(ctx *gin.Context) {
 	ctx.JSON(http.StatusOK, gin.H{
 		"productCategory": productCategoryList,
 	})
+}
+
+func (handler *ProductCategoryHandler) PostNewProductCategory(ctx *gin.Context) {
+	var body domain.ProductCategory
+	if err := ctx.ShouldBind(&body); err != nil {
+		ctx.JSON(http.StatusNotFound, gin.H{
+			"message": err.Error(),
+		})
+		return
+	}
+
+	if err := handler.productCategoryUseCase.Save(ctx, &body); err != nil {
+		ctx.JSON(http.StatusNotFound, gin.H{
+			"message": err.Error(),
+		})
+		return
+	}
+
+	ctx.Status(http.StatusOK)
 }

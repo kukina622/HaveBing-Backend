@@ -28,5 +28,5 @@ func (p *ProductCategoryUseCase) Update(ctx context.Context, productCategory *do
 }
 
 func (p *ProductCategoryUseCase) Save(ctx context.Context, productCategory *domain.ProductCategory) error {
-	return nil
+	return p.repo.Save(ctx, productCategory)
 }
