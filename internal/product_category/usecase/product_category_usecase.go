@@ -20,7 +20,7 @@ func (p *ProductCategoryUseCase) GetAll(ctx context.Context) ([]domain.ProductCa
 }
 
 func (p *ProductCategoryUseCase) GetById(ctx context.Context, id int) (*domain.ProductCategory, error) {
-	return nil, nil
+	return p.repo.GetById(ctx, id)
 }
 
 func (p *ProductCategoryUseCase) Update(ctx context.Context, productCategory *domain.ProductCategory) error {

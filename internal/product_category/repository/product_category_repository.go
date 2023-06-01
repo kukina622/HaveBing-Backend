@@ -23,7 +23,9 @@ func (p *ProductCategoryRepository) GetAll(ctx context.Context) ([]domain.Produc
 }
 
 func (p *ProductCategoryRepository) GetById(ctx context.Context, id int) (*domain.ProductCategory, error) {
-	return nil, nil
+	var productCategory domain.ProductCategory
+	err := p.db.First(&productCategory, id).Error
+	return &productCategory, err
 }
 
 func (p *ProductCategoryRepository) Update(ctx context.Context, productCategory *domain.ProductCategory) error {
