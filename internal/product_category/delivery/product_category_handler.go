@@ -52,7 +52,6 @@ func (handler *ProductCategoryHandler) PostNewProductCategory(ctx *gin.Context) 
 	ctx.Status(http.StatusOK)
 }
 
-
 func (handler *ProductCategoryHandler) GetById(ctx *gin.Context) {
 	id, err := strconv.Atoi(ctx.Param("id"))
 	if err != nil {
