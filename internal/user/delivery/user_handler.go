@@ -21,6 +21,7 @@ func Register(router *gin.RouterGroup, userUsecase domain.UserUseCase) {
 	router.POST("/login", handler.Login)
 	router.POST("/register", handler.Register)
 	router.GET("/user/all", handler.GetAll)
+	router.PATCH("/user/available", handler.ToggleUserAvailable)
 }
 
 func (handler *UserHandler) Login(ctx *gin.Context) {
@@ -89,4 +90,29 @@ func (handler *UserHandler) GetAll(ctx *gin.Context) {
 		return
 	}
 	ctx.JSON(http.StatusOK, dto.NewUserResponse(users))
+}
+
+func (handler *UserHandler) ToggleUserAvailable(ctx *gin.Context) {
+	var body dto.UserAvailableDTO
+	if err := ctx.ShouldBindJSON(&body); err != nil {
+		ctx.AbortWithError(http.StatusBadRequest, &error.ServerError{
+			Code: http.StatusBadRequest,
+			Msg:  err.Error(),
+		})
+		return
+	}
+
+	user := domain.User{
+		ID:        body.ID,
+		Available: body.Available,
+	}
+
+	if err := handler.userUseCase.ToggleUserAvailable(ctx, &user); err != nil {
+		ctx.AbortWithError(http.StatusBadRequest, &error.ServerError{
+			Code: http.StatusBadRequest,
+			Msg:  err.Error(),
+		})
+		return
+	}
+	ctx.Status(http.StatusOK)
 }

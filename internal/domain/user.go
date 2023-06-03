@@ -17,9 +17,8 @@ type User struct {
 
 type UserRepository interface {
 	GetAll(ctx context.Context) ([]User, error)
-	GetById(ctx context.Context, id int) (*User, error)
+	GetById(ctx context.Context, id uint) (*User, error)
 	GetByEmail(ctx context.Context, email string) (*User, error)
-	Update(ctx context.Context, user *User) error
 	Save(ctx context.Context, user *User) error
 }
 
@@ -27,6 +26,6 @@ type UserUseCase interface {
 	Login(ctx context.Context, email string, password string) (*User, bool)
 	Register(ctx context.Context, user *User) error
 	GetAll(ctx context.Context) ([]User, error)
-	DisableAccount(ctx context.Context, id int) error
+	ToggleUserAvailable(ctx context.Context, user *User) error
 	Update(ctx context.Context, user *User) error
 }

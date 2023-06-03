@@ -43,8 +43,13 @@ func (u *UserUseCase) GetAll(ctx context.Context) ([]domain.User, error) {
 	return u.repo.GetAll(ctx)
 }
 
-func (u *UserUseCase) DisableAccount(ctx context.Context, id int) error {
-	return nil
+func (u *UserUseCase) ToggleUserAvailable(ctx context.Context, user *domain.User) error {
+	targetUser, err := u.repo.GetById(ctx, user.ID)
+	if err != nil {
+		return err
+	}
+	targetUser.Available = user.Available
+	return u.repo.Save(ctx, targetUser)
 }
 
 func (u *UserUseCase) Update(ctx context.Context, user *domain.User) error {

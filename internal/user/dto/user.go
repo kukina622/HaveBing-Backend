@@ -15,8 +15,13 @@ type UserRegisterDTO struct {
 	Phone    string `json:"phone" binding:"required"`
 }
 
+type UserAvailableDTO struct {
+	ID        uint `json:"userId"`
+	Available bool `json:"available"`
+}
+
 type UserResponseDTO struct {
-	ID        uint   `json:"id"`
+	ID        uint   `json:"userId"`
 	Email     string `json:"email"`
 	Name      string `json:"name"`
 	Birthday  string `json:"birthday"`
