@@ -3,8 +3,8 @@ package domain
 import "context"
 
 type ProductCategory struct {
-	ID           uint   `gorm:"type:int NOT NULL auto_increment;primary_key;" json:"id"`
-	CategoryName string `gorm:"type:varchar(50) NOT NULL;" json:"categoryName" binding:"required"`
+	ID           uint   `gorm:"type:int NOT NULL auto_increment;primary_key;"`
+	CategoryName string `gorm:"type:varchar(50) NOT NULL;"`
 }
 
 type ProductCategoryRepository interface {

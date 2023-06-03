@@ -3,6 +3,7 @@ package delivery
 import (
 	"HaveBing-Backend/internal/domain"
 	"HaveBing-Backend/internal/middleware/error"
+	"HaveBing-Backend/internal/product_category/dto"
 	"net/http"
 	"strconv"
 
@@ -26,11 +27,10 @@ func Register(router *gin.RouterGroup, productCategoryUseCase domain.ProductCate
 func (handler *ProductCategoryHandler) GetAll(ctx *gin.Context) {
 	productCategoryList, err := handler.productCategoryUseCase.GetAll(ctx)
 	if err != nil {
-		ctx.Error(&error.ServerError{
+		ctx.AbortWithError(http.StatusNotFound, &error.ServerError{
 			Code: http.StatusNotFound,
-			Msg: err.Error(),
+			Msg:  err.Error(),
 		})
-		ctx.Abort()
 		return
 	}
 
@@ -38,22 +38,24 @@ func (handler *ProductCategoryHandler) GetAll(ctx *gin.Context) {
 }
 
 func (handler *ProductCategoryHandler) Save(ctx *gin.Context) {
-	var body domain.ProductCategory
+	var body dto.AddProductCategoryDTO
 	if err := ctx.ShouldBind(&body); err != nil {
-		ctx.Error(&error.ServerError{
+		ctx.AbortWithError(http.StatusBadRequest, &error.ServerError{
 			Code: http.StatusBadRequest,
-			Msg: err.Error(),
+			Msg:  err.Error(),
 		})
-		ctx.Abort()
 		return
 	}
 
-	if err := handler.productCategoryUseCase.Save(ctx, &body); err != nil {
-		ctx.Error(&error.ServerError{
+	p := domain.ProductCategory{
+		CategoryName: body.CategoryName,
+	}
+
+	if err := handler.productCategoryUseCase.Save(ctx, &p); err != nil {
+		ctx.AbortWithError(http.StatusBadRequest, &error.ServerError{
 			Code: http.StatusBadRequest,
-			Msg: err.Error(),
+			Msg:  err.Error(),
 		})
-		ctx.Abort()
 		return
 	}
 
@@ -63,21 +65,19 @@ func (handler *ProductCategoryHandler) Save(ctx *gin.Context) {
 func (handler *ProductCategoryHandler) GetById(ctx *gin.Context) {
 	id, err := strconv.Atoi(ctx.Param("id"))
 	if err != nil {
-		ctx.Error(&error.ServerError{
+		ctx.AbortWithError(http.StatusBadRequest, &error.ServerError{
 			Code: http.StatusBadRequest,
-			Msg: err.Error(),
+			Msg:  err.Error(),
 		})
-		ctx.Abort()
 		return
 	}
 
 	productCategory, err := handler.productCategoryUseCase.GetById(ctx, id)
 	if err != nil {
-		ctx.Error(&error.ServerError{
+		ctx.AbortWithError(http.StatusBadRequest, &error.ServerError{
 			Code: http.StatusBadRequest,
-			Msg: err.Error(),
+			Msg:  err.Error(),
 		})
-		ctx.Abort()
 		return
 	}
 
@@ -85,29 +85,24 @@ func (handler *ProductCategoryHandler) GetById(ctx *gin.Context) {
 }
 
 func (handler *ProductCategoryHandler) Update(ctx *gin.Context) {
-	var body domain.ProductCategory
+	var body dto.UpdateProductCategoryDTO
 	if err := ctx.ShouldBind(&body); err != nil {
-		ctx.Error(&error.ServerError{
+		ctx.AbortWithError(http.StatusBadRequest, &error.ServerError{
 			Code: http.StatusBadRequest,
-			Msg: err.Error(),
+			Msg:  err.Error(),
 		})
-		ctx.Abort()
 		return
 	}
-	if body.ID == 0 {
-		ctx.Error(&error.ServerError{
-			Code: http.StatusBadRequest,
-			Msg: "Missing id field",
-		})
-		ctx.Abort()
-		return
+	p := domain.ProductCategory{
+		ID:           body.ID,
+		CategoryName: body.CategoryName,
 	}
-	if err := handler.productCategoryUseCase.Update(ctx, &body); err != nil {
-		ctx.Error(&error.ServerError{
+
+	if err := handler.productCategoryUseCase.Update(ctx, &p); err != nil {
+		ctx.AbortWithError(http.StatusBadRequest, &error.ServerError{
 			Code: http.StatusBadRequest,
-			Msg: err.Error(),
+			Msg:  err.Error(),
 		})
-		ctx.Abort()
 		return
 	}
 	ctx.Status(http.StatusOK)
