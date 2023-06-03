@@ -6,18 +6,13 @@ import (
 )
 
 type User struct {
-	ID        uint      `gorm:"type:int NOT NULL auto_increment;primary_key;" json:"id"`
-	Email     string    `gorm:"type:varchar(255) NOT NULL;unique;" json:"email"`
-	Password  string    `gorm:"type:varchar(255) NOT NULL;" json:"password"`
-	Name      string    `gorm:"type:mediumtext NOT NULL;" json:"name"`
-	Birthday  time.Time `gorm:"type:date;" json:"birthday"`
-	Phone     string    `gorm:"type:varchar(20);" json:"phone"`
+	ID        uint      `gorm:"type:int NOT NULL auto_increment;primary_key;"`
+	Email     string    `gorm:"type:varchar(255) NOT NULL;unique;"`
+	Password  string    `gorm:"type:varchar(255) NOT NULL;"`
+	Name      string    `gorm:"type:mediumtext NOT NULL;"`
+	Birthday  time.Time `gorm:"type:date;"`
+	Phone     string    `gorm:"type:varchar(20);"`
 	Available bool      `gorm:"type:bool NOT NULL;default:true"`
-}
-
-type UserLogin struct {
-	Email     string    `json:"email" binding:"required"`
-	Password  string    `json:"password" binding:"required"`
 }
 
 type UserRepository interface {
