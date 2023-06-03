@@ -11,7 +11,7 @@ type UserRepository struct {
 	db *gorm.DB
 }
 
-func New(db *gorm.DB) *UserRepository {
+func New(db *gorm.DB) domain.UserRepository {
 	return &UserRepository{
 		db: db,
 	}
@@ -40,5 +40,5 @@ func (u *UserRepository) Update(ctx context.Context, user *domain.User) error {
 }
 
 func (u *UserRepository) Save(ctx context.Context, user *domain.User) error {
-	return nil
+	return u.db.Save(user).Error
 }

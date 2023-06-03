@@ -29,7 +29,7 @@ type UserRepository interface {
 }
 
 type UserUseCase interface {
-	Login(ctx context.Context, email string, password string) bool
+	Login(ctx context.Context, email string, password string) (*User, bool)
 	Register(ctx context.Context, user *User) error
 	GetAll(ctx context.Context) ([]User, error)
 	DisableAccount(ctx context.Context, id int) error

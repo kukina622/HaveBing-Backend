@@ -6,6 +6,10 @@ import (
 	_productCategoryRepository "HaveBing-Backend/internal/product_category/repository"
 	_productCategoryUsecase "HaveBing-Backend/internal/product_category/usecase"
 
+	_userDelivery "HaveBing-Backend/internal/user/delivery"
+	_userRepository "HaveBing-Backend/internal/user/repository"
+	_userUsecase "HaveBing-Backend/internal/user/usecase"
+
 	"github.com/gin-gonic/gin"
 	"gorm.io/gorm"
 )
@@ -20,6 +24,10 @@ func InitApplication(db *gorm.DB) *gin.Engine {
 	productCategoryRepository := _productCategoryRepository.New(db)
 	productCategoryUsecase := _productCategoryUsecase.New(productCategoryRepository)
 	_productCategoryDelivery.Register(router, productCategoryUsecase)
+
+	userRepository := _userRepository.New(db)
+	userUsecase := _userUsecase.New(userRepository)
+	_userDelivery.Register(router, userUsecase)
 
 	return app
 }
