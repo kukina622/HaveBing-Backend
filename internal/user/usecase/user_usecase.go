@@ -4,7 +4,6 @@ import (
 	"HaveBing-Backend/internal/domain"
 	passwordUtil "HaveBing-Backend/internal/util/password"
 	"context"
-	"fmt"
 	"os"
 
 	_ "github.com/joho/godotenv/autoload"
@@ -37,12 +36,11 @@ func (u *UserUseCase) Register(ctx context.Context, user *domain.User) error {
 		return err
 	}
 	user.Password = hashedPassword
-	fmt.Println(hashedPassword)
 	return u.repo.Save(ctx, user)
 }
 
 func (u *UserUseCase) GetAll(ctx context.Context) ([]domain.User, error) {
-	return nil, nil
+	return u.repo.GetAll(ctx)
 }
 
 func (u *UserUseCase) DisableAccount(ctx context.Context, id int) error {

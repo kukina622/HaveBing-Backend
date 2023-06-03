@@ -20,6 +20,7 @@ func Register(router *gin.RouterGroup, userUsecase domain.UserUseCase) {
 	}
 	router.POST("/login", handler.Login)
 	router.POST("/register", handler.Register)
+	router.GET("/user/all", handler.GetAll)
 }
 
 func (handler *UserHandler) Login(ctx *gin.Context) {
@@ -76,4 +77,16 @@ func (handler *UserHandler) Register(ctx *gin.Context) {
 		return
 	}
 	ctx.Status(http.StatusOK)
+}
+
+func (handler *UserHandler) GetAll(ctx *gin.Context) {
+	users, err := handler.userUseCase.GetAll(ctx)
+	if err != nil {
+		ctx.AbortWithError(http.StatusNotFound, &error.ServerError{
+			Code: http.StatusNotFound,
+			Msg:  err.Error(),
+		})
+		return
+	}
+	ctx.JSON(http.StatusOK, dto.NewUserResponse(users))
 }
