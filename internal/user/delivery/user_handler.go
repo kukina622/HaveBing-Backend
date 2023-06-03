@@ -10,17 +10,6 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func userResponse(user *domain.User) map[string]any {
-	return map[string]any{
-		"id":        user.ID,
-		"email":     user.Email,
-		"name":      user.Name,
-		"birthday":  user.Birthday,
-		"phone":     user.Phone,
-		"available": user.Available,
-	}
-}
-
 type UserHandler struct {
 	userUseCase domain.UserUseCase
 }
@@ -43,7 +32,7 @@ func (handler *UserHandler) Login(ctx *gin.Context) {
 		return
 	}
 	if user, ok := handler.userUseCase.Login(ctx, body.Email, body.Password); ok {
-		ctx.JSON(http.StatusOK, userResponse(user))
+		ctx.JSON(http.StatusOK, dto.NewUserResponse(user))
 		return
 	}
 	ctx.AbortWithError(http.StatusUnauthorized, &error.ServerError{
