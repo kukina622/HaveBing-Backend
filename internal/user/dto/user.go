@@ -24,13 +24,30 @@ type UserResponseDTO struct {
 	Available bool   `json:"available"`
 }
 
-func NewUserResponse(user *domain.User) UserResponseDTO {
-	return UserResponseDTO{
-		ID:        user.ID,
-		Email:     user.Email,
-		Name:      user.Name,
-		Birthday:  user.Birthday.Format("2006-01-02"),
-		Phone:     user.Phone,
-		Available: user.Available,
+func NewUserResponse(user any) any {
+	switch rawUser := user.(type) {
+	case *domain.User:
+		return UserResponseDTO{
+			ID:        rawUser.ID,
+			Email:     rawUser.Email,
+			Name:      rawUser.Name,
+			Birthday:  rawUser.Birthday.Format("2006-01-02"),
+			Phone:     rawUser.Phone,
+			Available: rawUser.Available,
+		}
+	case []domain.User:
+		var userResponseDTO []UserResponseDTO
+		for _, _user := range rawUser {
+			userResponseDTO = append(userResponseDTO, UserResponseDTO{
+				ID:        _user.ID,
+				Email:     _user.Email,
+				Name:      _user.Name,
+				Birthday:  _user.Birthday.Format("2006-01-02"),
+				Phone:     _user.Phone,
+				Available: _user.Available,
+			})
+		}
+		return userResponseDTO
 	}
+	return nil
 }
