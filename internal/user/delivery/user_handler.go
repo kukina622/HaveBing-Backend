@@ -33,8 +33,13 @@ func (handler *UserHandler) Login(ctx *gin.Context) {
 		})
 		return
 	}
-	if user, ok := handler.userUseCase.Login(ctx, body.Email, body.Password); ok {
-		ctx.JSON(http.StatusOK, dto.NewUserResponse(user))
+	if ok, user, token := handler.userUseCase.Login(ctx, body.Email, body.Password); ok {
+		userResponse, _ := dto.NewUserResponse(user).(dto.UserResponseDTO)
+		responseBody := &dto.UserLoginResponseDTO{
+			UserResponseDTO: userResponse,
+			Token:           token,
+		}
+		ctx.JSON(http.StatusOK, responseBody)
 		return
 	}
 	ctx.AbortWithError(http.StatusUnauthorized, &error.ServerError{

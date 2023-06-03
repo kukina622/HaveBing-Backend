@@ -29,6 +29,11 @@ type UserResponseDTO struct {
 	Available bool   `json:"available"`
 }
 
+type UserLoginResponseDTO struct {
+	UserResponseDTO
+	Token string `json:"token"`
+}
+
 func NewUserResponse(user any) any {
 	switch rawUser := user.(type) {
 	case *domain.User:

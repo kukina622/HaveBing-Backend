@@ -2,6 +2,7 @@ package usecase
 
 import (
 	"HaveBing-Backend/internal/domain"
+	"HaveBing-Backend/internal/util/jwt"
 	passwordUtil "HaveBing-Backend/internal/util/password"
 	"context"
 	"os"
@@ -19,14 +20,21 @@ func New(repo domain.UserRepository) domain.UserUseCase {
 	}
 }
 
-func (u *UserUseCase) Login(ctx context.Context, email string, password string) (*domain.User, bool) {
+func (u *UserUseCase) Login(ctx context.Context, email string, password string) (bool, *domain.User, string) {
 	user, err := u.repo.GetByEmail(ctx, email)
 	if err != nil || user == nil {
-		return nil, false
+		return false, nil, ""
 	}
 	salt := os.Getenv("SALT")
 	success := passwordUtil.VerifyPassword(password, user.Password, salt) && user.Available
-	return user, success
+
+	var token string
+	if success {
+		key := os.Getenv("SECRET_KEY")
+		token, _ = jwt.Sign(key, user.ID)
+	}
+
+	return success, user, token
 }
 
 func (u *UserUseCase) Register(ctx context.Context, user *domain.User) error {

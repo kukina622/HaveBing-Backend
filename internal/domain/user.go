@@ -23,7 +23,7 @@ type UserRepository interface {
 }
 
 type UserUseCase interface {
-	Login(ctx context.Context, email string, password string) (*User, bool)
+	Login(ctx context.Context, email string, password string) (bool, *User, string)
 	Register(ctx context.Context, user *User) error
 	GetAll(ctx context.Context) ([]User, error)
 	ToggleUserAvailable(ctx context.Context, user *User) error
