@@ -5,6 +5,6 @@ type AddProductCategoryDTO struct {
 }
 
 type UpdateProductCategoryDTO struct {
-	ID           uint   `json:"id" binding:"required"`
+	ID           uint   `json:"productCategoryId" binding:"required"`
 	CategoryName string `json:"categoryName" binding:"required"`
 }

@@ -3,7 +3,7 @@ package domain
 import "context"
 
 type ProductCategory struct {
-	ID           uint   `gorm:"type:int NOT NULL auto_increment;primary_key;"`
+	ID           uint   `gorm:"type:int NOT NULL auto_increment;primary_key;" json:"productCategoryId"`
 	CategoryName string `gorm:"type:varchar(50) NOT NULL;"`
 }
 
