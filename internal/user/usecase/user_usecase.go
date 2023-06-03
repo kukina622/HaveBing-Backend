@@ -26,7 +26,8 @@ func (u *UserUseCase) Login(ctx context.Context, email string, password string) 
 		return nil, false
 	}
 	salt := os.Getenv("SALT")
-	return user, passwordUtil.VerifyPassword(password, user.Password, salt)
+	success := passwordUtil.VerifyPassword(password, user.Password, salt) && user.Available
+	return user, success
 }
 
 func (u *UserUseCase) Register(ctx context.Context, user *domain.User) error {
