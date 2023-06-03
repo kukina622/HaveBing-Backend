@@ -1,12 +1,15 @@
 package password
 
-import "golang.org/x/crypto/argon2"
+import "golang.org/x/crypto/bcrypt"
 
-func HashPassword(password string, salt []byte) string {
-	hash := argon2.IDKey([]byte(password), salt, 1, 64*1024, 4, 32)
-	return string(hash)
+func HashPassword(password, salt string) (string, error) {
+	password += salt
+	bytes, err := bcrypt.GenerateFromPassword([]byte(password), 14)
+	return string(bytes), err
 }
 
-func VerifyPassword(password string, hash string, salt []byte) bool {
-	return hash == HashPassword(password, salt)
+func VerifyPassword(password string, hash string, salt string) bool {
+	password += salt
+	err := bcrypt.CompareHashAndPassword([]byte(hash), []byte(password))
+	return err == nil
 }
