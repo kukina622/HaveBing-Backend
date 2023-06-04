@@ -33,7 +33,8 @@ func (u *UserUseCase) Login(ctx context.Context, email string, password string) 
 	if success {
 		key := os.Getenv("SECRET_KEY")
 		payload := map[string]interface{}{
-			"user_id": user.ID,
+			"userId": user.ID,
+			"role":   user.Role,
 		}
 		token, err = jwtUtil.Sign(key, payload)
 		success = err == nil

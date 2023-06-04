@@ -155,7 +155,7 @@ func (handler *UserHandler) Update(ctx *gin.Context) {
 	}
 
 	user := domain.User{
-		ID:       payload["user_id"].(uint),
+		ID:       payload["userId"].(uint),
 		Email:    body.Email,
 		Name:     body.Name,
 		Birthday: birthday,
