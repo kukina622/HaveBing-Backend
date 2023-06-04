@@ -30,12 +30,13 @@ type UserUpdateDTO struct {
 }
 
 type UserResponseDTO struct {
-	ID        uint   `json:"userId"`
-	Email     string `json:"email"`
-	Name      string `json:"name"`
-	Birthday  string `json:"birthday"`
-	Phone     string `json:"phone"`
-	Available bool   `json:"available"`
+	ID        uint         `json:"userId"`
+	Email     string       `json:"email"`
+	Name      string       `json:"name"`
+	Birthday  string       `json:"birthday"`
+	Phone     string       `json:"phone"`
+	Available bool         `json:"available"`
+	Role      *domain.Role `json:"role"`
 }
 
 type UserLoginResponseDTO struct {
@@ -53,6 +54,7 @@ func NewUserResponse(user any) any {
 			Birthday:  rawUser.Birthday.Format("2006-01-02"),
 			Phone:     rawUser.Phone,
 			Available: rawUser.Available,
+			Role:      rawUser.Role,
 		}
 	case []domain.User:
 		var userResponseDTO []UserResponseDTO
@@ -64,6 +66,7 @@ func NewUserResponse(user any) any {
 				Birthday:  _user.Birthday.Format("2006-01-02"),
 				Phone:     _user.Phone,
 				Available: _user.Available,
+				Role:      _user.Role,
 			})
 		}
 		return userResponseDTO

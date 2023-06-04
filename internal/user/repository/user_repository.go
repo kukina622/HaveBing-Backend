@@ -19,19 +19,19 @@ func New(db *gorm.DB) domain.UserRepository {
 
 func (u *UserRepository) GetAll(ctx context.Context) ([]domain.User, error) {
 	var userList []domain.User
-	err := u.db.Find(&userList).Error
+	err := u.db.Preload("Role").Find(&userList).Error
 	return userList, err
 }
 
 func (u *UserRepository) GetById(ctx context.Context, id uint) (*domain.User, error) {
 	var user domain.User
-	err := u.db.First(&user, id).Error
+	err := u.db.Preload("Role").First(&user, id).Error
 	return &user, err
 }
 
 func (u *UserRepository) GetByEmail(ctx context.Context, email string) (*domain.User, error) {
 	var user domain.User
-	err := u.db.Where("email = ?", email).First(&user).Error
+	err := u.db.Preload("Role").Where("email = ?", email).First(&user).Error
 	return &user, err
 }
 

@@ -49,6 +49,7 @@ func (u *UserUseCase) Register(ctx context.Context, user *domain.User) error {
 		return err
 	}
 	user.Password = hashedPassword
+	user.Role = nil
 	return u.repo.Save(ctx, user)
 }
 
