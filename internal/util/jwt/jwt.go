@@ -8,13 +8,14 @@ import (
 	"time"
 
 	"github.com/golang-jwt/jwt/v5"
-	"golang.org/x/exp/constraints"
 )
 
-func Sign[Integer constraints.Integer](key string, userId Integer) (string, error) {
+func Sign(key string, payload map[string]interface{}) (string, error) {
 	token := jwt.New(jwt.SigningMethodHS256)
 	claims := token.Claims.(jwt.MapClaims)
-	claims["userId"] = userId
+	for k, v := range payload {
+		claims[k] = v
+	}
 	claims["exp"] = time.Now().Add(time.Hour * 48).Unix()
 	return token.SignedString([]byte(key))
 }
