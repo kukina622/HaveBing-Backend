@@ -1,7 +1,10 @@
 package jwt
 
 import (
+	"encoding/base64"
+	"encoding/json"
 	"fmt"
+	"strings"
 	"time"
 
 	"github.com/golang-jwt/jwt/v5"
@@ -30,4 +33,23 @@ func Verify(token, key string) (any, error) {
 		return claims, nil
 	}
 	return nil, err
+}
+
+// ExtractPayload extracts the payload from the jwt token
+// Note:
+// It will not verify the token
+// Please use Verify() before calling this function
+func ExtractPayload(reqToken string) (map[string]any, error) {
+	token := strings.Split(reqToken, "Bearer ")[1]
+	rawPayload := strings.Split(token, ".")[1]
+	decodedBytes, err := base64.RawURLEncoding.DecodeString(rawPayload)
+	if err != nil {
+		return nil, err
+	}
+	var payload map[string]any
+	err = json.Unmarshal(decodedBytes, &payload)
+	if err != nil {
+		return nil, err
+	}
+	return payload, nil
 }
