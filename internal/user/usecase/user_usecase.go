@@ -2,7 +2,7 @@ package usecase
 
 import (
 	"HaveBing-Backend/internal/domain"
-	"HaveBing-Backend/internal/util/jwt"
+	jwtUtil "HaveBing-Backend/internal/util/jwt"
 	passwordUtil "HaveBing-Backend/internal/util/password"
 	"context"
 	"fmt"
@@ -32,7 +32,8 @@ func (u *UserUseCase) Login(ctx context.Context, email string, password string) 
 	var token string
 	if success {
 		key := os.Getenv("SECRET_KEY")
-		token, _ = jwt.Sign(key, user.ID)
+		token, err = jwtUtil.Sign(key, user.ID)
+		success = err == nil
 	}
 
 	return success, user, token
