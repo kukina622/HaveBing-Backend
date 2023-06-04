@@ -2,6 +2,7 @@ package delivery
 
 import (
 	"HaveBing-Backend/internal/domain"
+	"HaveBing-Backend/internal/middleware/auth"
 	"HaveBing-Backend/internal/middleware/error"
 	"HaveBing-Backend/internal/user/dto"
 	"net/http"
@@ -20,9 +21,9 @@ func Register(router *gin.RouterGroup, userUsecase domain.UserUseCase) {
 	}
 	router.POST("/login", handler.Login)
 	router.POST("/register", handler.Register)
-	router.GET("/user/all", handler.GetAll)
-	router.PATCH("/user/available", handler.ToggleUserAvailable)
-	router.PATCH("/user", handler.Update)
+	router.GET("/user/all", auth.JwtAuthMiddleware, handler.GetAll)
+	router.PATCH("/user/available", auth.JwtAuthMiddleware, handler.ToggleUserAvailable)
+	router.PATCH("/user", auth.JwtAuthMiddleware, handler.Update)
 }
 
 func (handler *UserHandler) Login(ctx *gin.Context) {
