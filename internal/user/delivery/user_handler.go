@@ -22,6 +22,7 @@ func Register(router *gin.RouterGroup, userUsecase domain.UserUseCase) {
 	router.POST("/register", handler.Register)
 	router.GET("/user/all", handler.GetAll)
 	router.PATCH("/user/available", handler.ToggleUserAvailable)
+	router.PATCH("/user", handler.Update)
 }
 
 func (handler *UserHandler) Login(ctx *gin.Context) {
@@ -119,5 +120,43 @@ func (handler *UserHandler) ToggleUserAvailable(ctx *gin.Context) {
 		})
 		return
 	}
+	ctx.Status(http.StatusOK)
+}
+
+func (handler *UserHandler) Update(ctx *gin.Context) {
+	var body dto.UserUpdateDTO
+	if err := ctx.ShouldBindJSON(&body); err != nil {
+		ctx.AbortWithError(http.StatusBadRequest, &error.ServerError{
+			Code: http.StatusBadRequest,
+			Msg:  err.Error(),
+		})
+		return
+	}
+
+	birthday, err := time.Parse("2006-01-02", body.Birthday)
+	if err != nil {
+		ctx.AbortWithError(http.StatusBadRequest, &error.ServerError{
+			Code: http.StatusBadRequest,
+			Msg:  err.Error(),
+		})
+		return
+	}
+
+	user := domain.User{
+		ID:       body.ID,
+		Email:    body.Email,
+		Name:     body.Name,
+		Birthday: birthday,
+		Phone:    body.Phone,
+	}
+
+	if err := handler.userUseCase.Update(ctx, &user, body.OldPassword, body.NewPassword); err != nil {
+		ctx.AbortWithError(http.StatusBadRequest, &error.ServerError{
+			Code: http.StatusBadRequest,
+			Msg:  err.Error(),
+		})
+		return
+	}
+
 	ctx.Status(http.StatusOK)
 }

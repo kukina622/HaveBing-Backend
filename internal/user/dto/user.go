@@ -20,6 +20,16 @@ type UserAvailableDTO struct {
 	Available bool `json:"available"`
 }
 
+type UserUpdateDTO struct {
+	ID          uint   `json:"userId" binding:"required"`
+	Email       string `json:"email" binding:"required"`
+	OldPassword string `json:"oldPassword" binding:"required"`
+	NewPassword string `json:"newPassword" binding:"required"`
+	Name        string `json:"name" binding:"required"`
+	Birthday    string `json:"birthday" binding:"required"`
+	Phone       string `json:"phone" binding:"required"`
+}
+
 type UserResponseDTO struct {
 	ID        uint   `json:"userId"`
 	Email     string `json:"email"`

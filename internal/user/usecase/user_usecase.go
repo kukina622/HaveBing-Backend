@@ -5,6 +5,7 @@ import (
 	"HaveBing-Backend/internal/util/jwt"
 	passwordUtil "HaveBing-Backend/internal/util/password"
 	"context"
+	"fmt"
 	"os"
 
 	_ "github.com/joho/godotenv/autoload"
@@ -60,6 +61,26 @@ func (u *UserUseCase) ToggleUserAvailable(ctx context.Context, user *domain.User
 	return u.repo.Save(ctx, targetUser)
 }
 
-func (u *UserUseCase) Update(ctx context.Context, user *domain.User) error {
-	return nil
+func (u *UserUseCase) Update(ctx context.Context, user *domain.User, oldPassword, newPassword string) error {
+	targetUser, err := u.repo.GetById(ctx, user.ID)
+	if err != nil {
+		return err
+	}
+
+	salt := os.Getenv("SALT")
+	if !passwordUtil.VerifyPassword(oldPassword, targetUser.Password, salt) {
+		return fmt.Errorf("old password is incorrect")
+	}
+
+	hashedPassword, err := passwordUtil.HashPassword(newPassword, salt)
+	if err != nil {
+		return err
+	}
+
+	targetUser.Email = user.Email
+	targetUser.Password = hashedPassword
+	targetUser.Name = user.Name
+	targetUser.Birthday = user.Birthday
+	targetUser.Phone = user.Phone
+	return u.repo.Save(ctx, targetUser)
 }

@@ -27,5 +27,5 @@ type UserUseCase interface {
 	Register(ctx context.Context, user *User) error
 	GetAll(ctx context.Context) ([]User, error)
 	ToggleUserAvailable(ctx context.Context, user *User) error
-	Update(ctx context.Context, user *User) error
+	Update(ctx context.Context, user *User, oldPassword, newPassword string) error
 }
