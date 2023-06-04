@@ -5,6 +5,7 @@ import (
 	"HaveBing-Backend/internal/middleware/auth"
 	"HaveBing-Backend/internal/middleware/error"
 	"HaveBing-Backend/internal/user/dto"
+	jwtUtil "HaveBing-Backend/internal/util/jwt"
 	"net/http"
 	"time"
 
@@ -143,8 +144,18 @@ func (handler *UserHandler) Update(ctx *gin.Context) {
 		return
 	}
 
+	reqToken := ctx.GetHeader("Authorization")
+	payload, err := jwtUtil.ExtractPayload(reqToken)
+	if err != nil {
+		ctx.AbortWithError(http.StatusBadRequest, &error.ServerError{
+			Code: http.StatusBadRequest,
+			Msg:  err.Error(),
+		})
+		return
+	}
+
 	user := domain.User{
-		ID:       body.ID,
+		ID:       payload["user_id"].(uint),
 		Email:    body.Email,
 		Name:     body.Name,
 		Birthday: birthday,

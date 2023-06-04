@@ -21,7 +21,6 @@ type UserAvailableDTO struct {
 }
 
 type UserUpdateDTO struct {
-	ID          uint   `json:"userId" binding:"required"`
 	Email       string `json:"email" binding:"required"`
 	OldPassword string `json:"oldPassword" binding:"required"`
 	NewPassword string `json:"newPassword" binding:"required"`
