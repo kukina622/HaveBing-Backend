@@ -7,5 +7,11 @@ import (
 )
 
 func Migration(db *gorm.DB) error {
-	return db.AutoMigrate(&domain.ProductCategory{}, &domain.User{}, &domain.Role{})
+	return db.AutoMigrate(
+		&domain.ProductCategory{},
+		&domain.User{},
+		&domain.Role{},
+		&domain.Product{},
+		&domain.ProductImage{},
+	)
 }
