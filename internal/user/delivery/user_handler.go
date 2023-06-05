@@ -22,8 +22,8 @@ func Register(router *gin.RouterGroup, userUsecase domain.UserUseCase) {
 	}
 	router.POST("/login", handler.Login)
 	router.POST("/register", handler.Register)
-	router.GET("/user/all", auth.JwtAuthMiddleware, handler.GetAll)
-	router.PATCH("/user/available", auth.JwtAuthMiddleware, handler.ToggleUserAvailable)
+	router.GET("/user/all", auth.JwtAuthMiddleware, auth.AdminAuthMiddleware, handler.GetAll)
+	router.PATCH("/user/available", auth.JwtAuthMiddleware, auth.AdminAuthMiddleware, handler.ToggleUserAvailable)
 	router.PATCH("/user", auth.JwtAuthMiddleware, handler.Update)
 }
 
