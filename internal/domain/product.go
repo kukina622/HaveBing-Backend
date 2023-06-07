@@ -1,6 +1,10 @@
 package domain
 
-import "context"
+import (
+	"context"
+
+	"github.com/shopspring/decimal"
+)
 
 type ProductImage struct {
 	ID        uint   `gorm:"type:bigint(20) NOT NULL auto_increment;primary_key;" json:"productImageId"`
@@ -9,14 +13,14 @@ type ProductImage struct {
 }
 
 type Product struct {
-	ID                uint           `gorm:"type:bigint(20) NOT NULL auto_increment;primary_key;"`
-	ProductName       string         `gorm:"type:mediumtext NOT NULL;"`
-	Price             int            `gorm:"type:decimal(19,4) NOT NULL;"`
-	Introduction      string         `gorm:"type:longtext;"`
-	Information       string         `gorm:"type:longtext;"`
-	Inventory         uint           `gorm:"type:int(11) NOT NULL; check:inventory>=0;"`
-	ProductCategoryId uint           `gorm:"type:bigint(20) NOT NULL;"`
-	ProductImage      []ProductImage `gorm:"foreignKey:ProductId"`
+	ID                uint            `gorm:"type:bigint(20) NOT NULL auto_increment;primary_key;"`
+	ProductName       string          `gorm:"type:mediumtext NOT NULL;"`
+	Price             decimal.Decimal `gorm:"type:decimal(19,4) NOT NULL;"`
+	Introduction      string          `gorm:"type:longtext;"`
+	Information       string          `gorm:"type:longtext;"`
+	Inventory         uint            `gorm:"type:int(11) NOT NULL; check:inventory>=0;"`
+	ProductCategoryId uint            `gorm:"type:bigint(20) NOT NULL;"`
+	ProductImage      []ProductImage  `gorm:"foreignKey:ProductId"`
 	ProductCategory   ProductCategory
 }
 
