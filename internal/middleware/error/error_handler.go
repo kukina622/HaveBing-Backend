@@ -7,6 +7,7 @@ import (
 )
 
 func ErrorHandler(ctx *gin.Context) {
+	ctx.Writer.Header().Set("Content-Type", "application/json; charset=utf-8")
 	ctx.Next()
 
 	for _, err := range ctx.Errors {
