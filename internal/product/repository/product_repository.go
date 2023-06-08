@@ -5,6 +5,7 @@ import (
 	"context"
 
 	"gorm.io/gorm"
+	"gorm.io/gorm/clause"
 )
 
 type ProductRepository struct {
@@ -18,7 +19,9 @@ func New(db *gorm.DB) domain.ProductRepository {
 }
 
 func (p *ProductRepository) GetAll(ctx context.Context) ([]domain.Product, error) {
-	return nil, nil
+	var productList []domain.Product
+	err := p.db.Preload(clause.Associations).Find(&productList).Error
+	return productList, err
 }
 
 func (p *ProductRepository) GetById(ctx context.Context, id uint) (*domain.Product, error) {

@@ -18,7 +18,7 @@ func New(productRepo domain.ProductRepository, productCategoryRepo domain.Produc
 }
 
 func (p *ProductUseCase) GetAll(ctx context.Context) ([]domain.Product, error) {
-	return nil, nil
+	return p.productRepo.GetAll(ctx)
 }
 
 func (p *ProductUseCase) GetById(ctx context.Context, id uint) (*domain.Product, error) {
@@ -27,7 +27,6 @@ func (p *ProductUseCase) GetById(ctx context.Context, id uint) (*domain.Product,
 
 func (p *ProductUseCase) GetByCategoryId(ctx context.Context, categoryId uint) ([]domain.Product, error) {
 	return nil, nil
-
 }
 
 func (p *ProductUseCase) Create(ctx context.Context, product *domain.Product) error {
