@@ -2,6 +2,7 @@ package domain
 
 import (
 	"context"
+	"mime/multipart"
 
 	"github.com/shopspring/decimal"
 )
@@ -36,6 +37,6 @@ type ProductUseCase interface {
 	GetById(ctx context.Context, id uint) (*Product, error)
 	GetByCategoryId(ctx context.Context, categoryId uint) ([]Product, error)
 	GetByCategoryName(ctx context.Context, categoryName string) ([]Product, error)
-	Create(ctx context.Context, product *Product) error
+	Create(ctx context.Context, product *Product, productImages []*multipart.FileHeader, categoryName string) error
 	Update(ctx context.Context, product *Product) error
 }

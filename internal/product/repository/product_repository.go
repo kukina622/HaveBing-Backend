@@ -37,5 +37,5 @@ func (p *ProductRepository) GetByCategoryId(ctx context.Context, categoryId uint
 }
 
 func (p *ProductRepository) Save(ctx context.Context, product *domain.Product) error {
-	return nil
+	return p.db.Save(product).Error
 }
