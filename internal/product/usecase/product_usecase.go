@@ -26,7 +26,7 @@ func (p *ProductUseCase) GetById(ctx context.Context, id uint) (*domain.Product,
 }
 
 func (p *ProductUseCase) GetByCategoryId(ctx context.Context, categoryId uint) ([]domain.Product, error) {
-	return nil, nil
+	return p.productRepo.GetByCategoryId(ctx, categoryId)
 }
 
 func (p *ProductUseCase) Create(ctx context.Context, product *domain.Product) error {

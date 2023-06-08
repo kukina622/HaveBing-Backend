@@ -31,7 +31,9 @@ func (p *ProductRepository) GetById(ctx context.Context, id uint) (*domain.Produ
 }
 
 func (p *ProductRepository) GetByCategoryId(ctx context.Context, categoryId uint) ([]domain.Product, error) {
-	return nil, nil
+	var productList []domain.Product
+	err := p.db.Preload(clause.Associations).Where("product_category_id = ?", categoryId).Find(&productList).Error
+	return productList, err
 }
 
 func (p *ProductRepository) Save(ctx context.Context, product *domain.Product) error {
