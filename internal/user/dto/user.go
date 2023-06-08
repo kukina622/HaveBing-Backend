@@ -39,7 +39,7 @@ type UserResponseDTO struct {
 	Role      *domain.Role `json:"role"`
 }
 
-type UserLoginResponseDTO struct {
+type UserWithTokenResponseDTO struct {
 	UserResponseDTO
 	Token string `json:"token"`
 }

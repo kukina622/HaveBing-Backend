@@ -38,7 +38,7 @@ func (handler *UserHandler) Login(ctx *gin.Context) {
 	}
 	if ok, user, token := handler.userUseCase.Login(ctx, body.Email, body.Password); ok {
 		userResponse, _ := dto.NewUserResponse(user).(dto.UserResponseDTO)
-		responseBody := &dto.UserLoginResponseDTO{
+		responseBody := &dto.UserWithTokenResponseDTO{
 			UserResponseDTO: userResponse,
 			Token:           token,
 		}
