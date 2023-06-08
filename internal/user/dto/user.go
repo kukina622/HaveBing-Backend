@@ -44,8 +44,8 @@ type UserLoginResponseDTO struct {
 	Token string `json:"token"`
 }
 
-func NewUserResponse(user any) any {
-	switch rawUser := user.(type) {
+func NewUserResponse[in *domain.User | []domain.User](user in) any {
+	switch rawUser := any(user).(type) {
 	case *domain.User:
 		return UserResponseDTO{
 			ID:        rawUser.ID,
