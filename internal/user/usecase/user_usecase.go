@@ -8,6 +8,7 @@ import (
 	"fmt"
 	"os"
 
+	"github.com/gin-gonic/gin"
 	_ "github.com/joho/godotenv/autoload"
 )
 
@@ -56,6 +57,16 @@ func (u *UserUseCase) Register(ctx context.Context, user *domain.User) error {
 
 func (u *UserUseCase) GetAll(ctx context.Context) ([]domain.User, error) {
 	return u.repo.GetAll(ctx)
+}
+
+func (u *UserUseCase) GetCurrentUser(ctx context.Context) (*domain.User, error) {
+	reqToken := ctx.(*gin.Context).GetHeader("Authorization")
+	payload, err := jwtUtil.ExtractPayload(reqToken)
+	if err != nil {
+		return nil, err
+	}
+	userId := uint(payload["userId"].(float64))
+	return u.repo.GetById(ctx, userId)
 }
 
 func (u *UserUseCase) ToggleUserAvailable(ctx context.Context, user *domain.User) error {

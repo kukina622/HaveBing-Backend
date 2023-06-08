@@ -22,6 +22,7 @@ func Register(router *gin.RouterGroup, userUsecase domain.UserUseCase) {
 	}
 	router.POST("/login", handler.Login)
 	router.POST("/register", handler.Register)
+	router.GET("/user", auth.JwtAuthMiddleware, handler.GetCurrentUser)
 	router.GET("/user/all", auth.JwtAuthMiddleware, auth.AdminAuthMiddleware, handler.GetAll)
 	router.PATCH("/user/available", auth.JwtAuthMiddleware, auth.AdminAuthMiddleware, handler.ToggleUserAvailable)
 	router.PATCH("/user", auth.JwtAuthMiddleware, handler.Update)
@@ -86,6 +87,18 @@ func (handler *UserHandler) Register(ctx *gin.Context) {
 		return
 	}
 	ctx.Status(http.StatusOK)
+}
+
+func (handler *UserHandler) GetCurrentUser(ctx *gin.Context) {
+	user, err := handler.userUseCase.GetCurrentUser(ctx)
+	if err != nil {
+		ctx.AbortWithError(http.StatusNotFound, &error.ServerError{
+			Code: http.StatusNotFound,
+			Msg:  err.Error(),
+		})
+		return
+	}
+	ctx.JSON(http.StatusOK, dto.NewUserResponse(user))
 }
 
 func (handler *UserHandler) GetAll(ctx *gin.Context) {
@@ -155,7 +168,7 @@ func (handler *UserHandler) Update(ctx *gin.Context) {
 	}
 
 	user := domain.User{
-		ID:       payload["userId"].(uint),
+		ID:       uint(payload["userId"].(float64)),
 		Email:    body.Email,
 		Name:     body.Name,
 		Birthday: birthday,

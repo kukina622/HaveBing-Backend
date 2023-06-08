@@ -30,6 +30,7 @@ type UserUseCase interface {
 	Login(ctx context.Context, email string, password string) (bool, *User, string)
 	Register(ctx context.Context, user *User) error
 	GetAll(ctx context.Context) ([]User, error)
+	GetCurrentUser(ctx context.Context) (*User, error)
 	ToggleUserAvailable(ctx context.Context, user *User) error
 	Update(ctx context.Context, user *User, oldPassword, newPassword string) error
 }
