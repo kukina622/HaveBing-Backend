@@ -25,7 +25,9 @@ func (p *ProductRepository) GetAll(ctx context.Context) ([]domain.Product, error
 }
 
 func (p *ProductRepository) GetById(ctx context.Context, id uint) (*domain.Product, error) {
-	return nil, nil
+	var product domain.Product
+	err := p.db.Preload(clause.Associations).First(&product, id).Error
+	return &product, err
 }
 
 func (p *ProductRepository) GetByCategoryId(ctx context.Context, categoryId uint) ([]domain.Product, error) {

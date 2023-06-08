@@ -22,7 +22,7 @@ func (p *ProductUseCase) GetAll(ctx context.Context) ([]domain.Product, error) {
 }
 
 func (p *ProductUseCase) GetById(ctx context.Context, id uint) (*domain.Product, error) {
-	return nil, nil
+	return p.productRepo.GetById(ctx, id)
 }
 
 func (p *ProductUseCase) GetByCategoryId(ctx context.Context, categoryId uint) ([]domain.Product, error) {
