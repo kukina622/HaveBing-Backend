@@ -14,7 +14,7 @@ type ProductResponseDTO struct {
 	Information     string          `json:"information"`
 	Inventory       uint            `json:"inventory"`
 	ProductImage    []string        `json:"productImage"`
-	ProductCategory string          `json:"productCategory"`
+	ProductCategory string          `json:"categoryName"`
 }
 
 func NewProductResponse[in *domain.Product | []domain.Product](product in) any {
