@@ -29,6 +29,12 @@ func (p *ProductCategoryRepository) GetById(ctx context.Context, id int) (*domai
 	return &productCategory, err
 }
 
+func (p *ProductCategoryRepository) GetByName(ctx context.Context, productCategoryName string) (*domain.ProductCategory, error) {
+	var productCategory domain.ProductCategory
+	err := p.db.Where("category_name = ?", productCategoryName).First(&productCategory).Error
+	return &productCategory, err
+}
+
 func (p *ProductCategoryRepository) Update(ctx context.Context, productCategory *domain.ProductCategory) error {
 	return p.db.Save(productCategory).Error
 }

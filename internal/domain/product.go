@@ -35,6 +35,7 @@ type ProductUseCase interface {
 	GetAll(ctx context.Context) ([]Product, error)
 	GetById(ctx context.Context, id uint) (*Product, error)
 	GetByCategoryId(ctx context.Context, categoryId uint) ([]Product, error)
+	GetByCategoryName(ctx context.Context, categoryName string) ([]Product, error)
 	Create(ctx context.Context, product *Product) error
 	Update(ctx context.Context, product *Product) error
 }

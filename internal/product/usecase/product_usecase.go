@@ -29,6 +29,14 @@ func (p *ProductUseCase) GetByCategoryId(ctx context.Context, categoryId uint) (
 	return p.productRepo.GetByCategoryId(ctx, categoryId)
 }
 
+func (p *ProductUseCase) GetByCategoryName(ctx context.Context, categoryName string) ([]domain.Product, error) {
+	productCategory, err := p.productCategoryRepo.GetByName(ctx, categoryName)
+	if err != nil {
+		return nil, err
+	}
+	return p.productRepo.GetByCategoryId(ctx, productCategory.ID)
+}
+
 func (p *ProductUseCase) Create(ctx context.Context, product *domain.Product) error {
 	return nil
 }

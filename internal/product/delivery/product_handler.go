@@ -20,6 +20,7 @@ func Register(router *gin.RouterGroup, productUseCase domain.ProductUseCase) {
 	}
 	router.GET("/product", handler.GetAll)
 	router.GET("/product/category/:categoryid", handler.GetByCategoryId)
+	router.POST("product/category", handler.GetByCategoryName)
 	router.GET("/product/:id", handler.GetById)
 }
 
@@ -65,6 +66,26 @@ func (handler *ProductHandler) GetByCategoryId(ctx *gin.Context) {
 		return
 	}
 	product, err := handler.productUseCase.GetByCategoryId(ctx, uint(categoryidId))
+	if err != nil {
+		ctx.AbortWithError(http.StatusNotFound, &error.ServerError{
+			Code: http.StatusNotFound,
+			Msg:  err.Error(),
+		})
+		return
+	}
+	ctx.JSON(http.StatusOK, dto.NewProductResponse(product))
+}
+
+func (handler *ProductHandler) GetByCategoryName(ctx *gin.Context) {
+	var body dto.ProductGetByCategoryNameDTO
+	if err := ctx.ShouldBind(&body); err != nil {
+		ctx.AbortWithError(http.StatusBadRequest, &error.ServerError{
+			Code: http.StatusBadRequest,
+			Msg:  err.Error(),
+		})
+		return
+	}
+	product, err := handler.productUseCase.GetByCategoryName(ctx, body.ProductCategory)
 	if err != nil {
 		ctx.AbortWithError(http.StatusNotFound, &error.ServerError{
 			Code: http.StatusNotFound,
