@@ -2,6 +2,7 @@ package delivery
 
 import (
 	"HaveBing-Backend/internal/domain"
+	"HaveBing-Backend/internal/middleware/auth"
 	"HaveBing-Backend/internal/middleware/error"
 	"HaveBing-Backend/internal/product/dto"
 	"net/http"
@@ -23,7 +24,7 @@ func Register(router *gin.RouterGroup, productUseCase domain.ProductUseCase) {
 	router.GET("/product/category/:categoryid", handler.GetByCategoryId)
 	router.POST("product/category", handler.GetByCategoryName)
 	router.GET("/product/:id", handler.GetById)
-	router.POST("/product", handler.Save)
+	router.POST("/product", auth.JwtAuthMiddleware, auth.AdminAuthMiddleware, handler.Save)
 }
 
 func (handler *ProductHandler) GetAll(ctx *gin.Context) {
