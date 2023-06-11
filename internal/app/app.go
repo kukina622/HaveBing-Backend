@@ -14,6 +14,13 @@ import (
 	_productRepository "HaveBing-Backend/internal/product/repository"
 	_productUsecase "HaveBing-Backend/internal/product/usecase"
 
+	_orderDelivery "HaveBing-Backend/internal/order/delivery"
+	_orderRepository "HaveBing-Backend/internal/order/repository"
+	_orderUsecase "HaveBing-Backend/internal/order/usecase"
+
+	_paymentRepository "HaveBing-Backend/internal/payment/repository"
+	_shippingRepository "HaveBing-Backend/internal/shipping/repository"
+
 	"github.com/gin-gonic/gin"
 	"gorm.io/gorm"
 )
@@ -36,6 +43,12 @@ func InitApplication(db *gorm.DB) *gin.Engine {
 	productRepository := _productRepository.New(db)
 	productUsecase := _productUsecase.New(productRepository, productCategoryRepository)
 	_productDelivery.Register(router, productUsecase)
+
+	orderRepository := _orderRepository.New(db)
+	paymentRepository := _paymentRepository.New(db)
+	shippingRepository := _shippingRepository.New(db)
+	orderUsecase := _orderUsecase.New(orderRepository, paymentRepository, shippingRepository)
+	_orderDelivery.Register(router, orderUsecase)
 
 	return app
 }
