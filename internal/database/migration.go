@@ -13,5 +13,9 @@ func Migration(db *gorm.DB) error {
 		&domain.Role{},
 		&domain.Product{},
 		&domain.ProductImage{},
+		&domain.Order{},
+		&domain.OrderItem{},
+		&domain.Payment{},
+		&domain.Shipping{},
 	)
 }
