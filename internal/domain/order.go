@@ -26,6 +26,7 @@ type OrderItem struct {
 	Price     decimal.Decimal `gorm:"type:decimal(19,4) NOT NULL;"`
 	ProductId uint            `gorm:"type:bigint(20) NOT NULL;index:idx_product_id;" json:"productId"`
 	OrderId   uint            `gorm:"type:bigint(20) NOT NULL;index:idx_order_id;" json:"orderId"`
+	Product   Product         `gorm:"foreignKey:ProductId"`
 }
 
 type OrderUseCase interface {
