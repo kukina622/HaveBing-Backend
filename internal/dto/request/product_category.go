@@ -1,4 +1,4 @@
-package dto
+package request
 
 type AddProductCategoryRequestDTO struct {
 	CategoryName string `json:"categoryName" binding:"required"`

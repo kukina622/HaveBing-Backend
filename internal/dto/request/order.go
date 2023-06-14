@@ -1,4 +1,4 @@
-package dto
+package request
 
 type AddOrderRequestDTO struct {
 	UserId      uint `json:"userId"`

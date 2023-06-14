@@ -2,7 +2,7 @@ package delivery
 
 import (
 	"HaveBing-Backend/internal/domain"
-	"HaveBing-Backend/internal/dto"
+	"HaveBing-Backend/internal/dto/request"
 	"HaveBing-Backend/internal/middleware/auth"
 	"HaveBing-Backend/internal/middleware/error"
 	"net/http"
@@ -36,7 +36,7 @@ func (handler *ProductHandler) GetAll(ctx *gin.Context) {
 		})
 		return
 	}
-	ctx.JSON(http.StatusOK, dto.NewProductResponse(product))
+	ctx.JSON(http.StatusOK, request.NewProductResponse(product))
 }
 
 func (handler *ProductHandler) GetById(ctx *gin.Context) {
@@ -56,7 +56,7 @@ func (handler *ProductHandler) GetById(ctx *gin.Context) {
 		})
 		return
 	}
-	ctx.JSON(http.StatusOK, dto.NewProductResponse(product))
+	ctx.JSON(http.StatusOK, request.NewProductResponse(product))
 }
 
 func (handler *ProductHandler) GetByCategoryId(ctx *gin.Context) {
@@ -76,11 +76,11 @@ func (handler *ProductHandler) GetByCategoryId(ctx *gin.Context) {
 		})
 		return
 	}
-	ctx.JSON(http.StatusOK, dto.NewProductResponse(product))
+	ctx.JSON(http.StatusOK, request.NewProductResponse(product))
 }
 
 func (handler *ProductHandler) GetByCategoryName(ctx *gin.Context) {
-	var body dto.GetProductByCategoryNameRequestDTO
+	var body request.GetProductByCategoryNameRequestDTO
 	if err := ctx.ShouldBind(&body); err != nil {
 		ctx.AbortWithError(http.StatusBadRequest, &error.ServerError{
 			Code: http.StatusBadRequest,
@@ -96,11 +96,11 @@ func (handler *ProductHandler) GetByCategoryName(ctx *gin.Context) {
 		})
 		return
 	}
-	ctx.JSON(http.StatusOK, dto.NewProductResponse(product))
+	ctx.JSON(http.StatusOK, request.NewProductResponse(product))
 }
 
 func (handler *ProductHandler) Save(ctx *gin.Context) {
-	var body dto.AddProductRequestDTO
+	var body request.AddProductRequestDTO
 	if err := ctx.ShouldBind(&body); err != nil {
 		ctx.AbortWithError(http.StatusBadRequest, &error.ServerError{
 			Code: http.StatusBadRequest,

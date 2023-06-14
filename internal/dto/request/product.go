@@ -1,4 +1,4 @@
-package dto
+package request
 
 import (
 	"HaveBing-Backend/internal/domain"

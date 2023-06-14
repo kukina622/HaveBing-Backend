@@ -2,7 +2,7 @@ package delivery
 
 import (
 	"HaveBing-Backend/internal/domain"
-	"HaveBing-Backend/internal/dto"
+	"HaveBing-Backend/internal/dto/request"
 	"HaveBing-Backend/internal/middleware/auth"
 	"HaveBing-Backend/internal/middleware/error"
 	jwtUtil "HaveBing-Backend/internal/util/jwt"
@@ -29,7 +29,7 @@ func Register(router *gin.RouterGroup, userUsecase domain.UserUseCase) {
 }
 
 func (handler *UserHandler) Login(ctx *gin.Context) {
-	var body dto.LoginUserRequestDTO
+	var body request.LoginUserRequestDTO
 	if err := ctx.ShouldBindJSON(&body); err != nil {
 		ctx.AbortWithError(http.StatusBadRequest, &error.ServerError{
 			Code: http.StatusBadRequest,
@@ -38,8 +38,8 @@ func (handler *UserHandler) Login(ctx *gin.Context) {
 		return
 	}
 	if ok, user, token := handler.userUseCase.Login(ctx, body.Email, body.Password); ok {
-		userResponse, _ := dto.NewUserResponse(user).(dto.UserResponseDTO)
-		responseBody := &dto.UserWithTokenResponseDTO{
+		userResponse, _ := request.NewUserResponse(user).(request.UserResponseDTO)
+		responseBody := &request.UserWithTokenResponseDTO{
 			UserResponseDTO: userResponse,
 			Token:           token,
 		}
@@ -53,7 +53,7 @@ func (handler *UserHandler) Login(ctx *gin.Context) {
 }
 
 func (handler *UserHandler) Register(ctx *gin.Context) {
-	var body dto.RegisterUserRequestDTO
+	var body request.RegisterUserRequestDTO
 	if err := ctx.ShouldBindJSON(&body); err != nil {
 		ctx.AbortWithError(http.StatusBadRequest, &error.ServerError{
 			Code: http.StatusBadRequest,
@@ -98,7 +98,7 @@ func (handler *UserHandler) GetCurrentUser(ctx *gin.Context) {
 		})
 		return
 	}
-	ctx.JSON(http.StatusOK, dto.NewUserResponse(user))
+	ctx.JSON(http.StatusOK, request.NewUserResponse(user))
 }
 
 func (handler *UserHandler) GetAll(ctx *gin.Context) {
@@ -110,11 +110,11 @@ func (handler *UserHandler) GetAll(ctx *gin.Context) {
 		})
 		return
 	}
-	ctx.JSON(http.StatusOK, dto.NewUserResponse(users))
+	ctx.JSON(http.StatusOK, request.NewUserResponse(users))
 }
 
 func (handler *UserHandler) ToggleUserAvailable(ctx *gin.Context) {
-	var body dto.ToggleUserAvailableRequestDTO
+	var body request.ToggleUserAvailableRequestDTO
 	if err := ctx.ShouldBindJSON(&body); err != nil {
 		ctx.AbortWithError(http.StatusBadRequest, &error.ServerError{
 			Code: http.StatusBadRequest,
@@ -139,7 +139,7 @@ func (handler *UserHandler) ToggleUserAvailable(ctx *gin.Context) {
 }
 
 func (handler *UserHandler) Update(ctx *gin.Context) {
-	var body dto.UpdateUserRequestDTO
+	var body request.UpdateUserRequestDTO
 	if err := ctx.ShouldBindJSON(&body); err != nil {
 		ctx.AbortWithError(http.StatusBadRequest, &error.ServerError{
 			Code: http.StatusBadRequest,
