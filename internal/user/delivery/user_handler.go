@@ -2,9 +2,9 @@ package delivery
 
 import (
 	"HaveBing-Backend/internal/domain"
+	"HaveBing-Backend/internal/dto"
 	"HaveBing-Backend/internal/middleware/auth"
 	"HaveBing-Backend/internal/middleware/error"
-	"HaveBing-Backend/internal/user/dto"
 	jwtUtil "HaveBing-Backend/internal/util/jwt"
 	"net/http"
 	"time"
@@ -29,7 +29,7 @@ func Register(router *gin.RouterGroup, userUsecase domain.UserUseCase) {
 }
 
 func (handler *UserHandler) Login(ctx *gin.Context) {
-	var body dto.UserLoginDTO
+	var body dto.LoginUserDTO
 	if err := ctx.ShouldBindJSON(&body); err != nil {
 		ctx.AbortWithError(http.StatusBadRequest, &error.ServerError{
 			Code: http.StatusBadRequest,
@@ -53,7 +53,7 @@ func (handler *UserHandler) Login(ctx *gin.Context) {
 }
 
 func (handler *UserHandler) Register(ctx *gin.Context) {
-	var body dto.UserRegisterDTO
+	var body dto.RegisterUserDTO
 	if err := ctx.ShouldBindJSON(&body); err != nil {
 		ctx.AbortWithError(http.StatusBadRequest, &error.ServerError{
 			Code: http.StatusBadRequest,
@@ -114,7 +114,7 @@ func (handler *UserHandler) GetAll(ctx *gin.Context) {
 }
 
 func (handler *UserHandler) ToggleUserAvailable(ctx *gin.Context) {
-	var body dto.UserAvailableDTO
+	var body dto.ToggleUserAvailableDTO
 	if err := ctx.ShouldBindJSON(&body); err != nil {
 		ctx.AbortWithError(http.StatusBadRequest, &error.ServerError{
 			Code: http.StatusBadRequest,
@@ -139,7 +139,7 @@ func (handler *UserHandler) ToggleUserAvailable(ctx *gin.Context) {
 }
 
 func (handler *UserHandler) Update(ctx *gin.Context) {
-	var body dto.UserUpdateDTO
+	var body dto.UpdateUserDTO
 	if err := ctx.ShouldBindJSON(&body); err != nil {
 		ctx.AbortWithError(http.StatusBadRequest, &error.ServerError{
 			Code: http.StatusBadRequest,

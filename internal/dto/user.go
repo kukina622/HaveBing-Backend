@@ -2,12 +2,12 @@ package dto
 
 import "HaveBing-Backend/internal/domain"
 
-type UserLoginDTO struct {
+type LoginUserDTO struct {
 	Email    string `json:"email" binding:"required"`
 	Password string `json:"password" binding:"required"`
 }
 
-type UserRegisterDTO struct {
+type RegisterUserDTO struct {
 	Email    string `json:"email" binding:"required"`
 	Password string `json:"password" binding:"required"`
 	Name     string `json:"name" binding:"required"`
@@ -15,12 +15,12 @@ type UserRegisterDTO struct {
 	Phone    string `json:"phone" binding:"required"`
 }
 
-type UserAvailableDTO struct {
+type ToggleUserAvailableDTO struct {
 	ID        uint `json:"userId"`
 	Available bool `json:"available"`
 }
 
-type UserUpdateDTO struct {
+type UpdateUserDTO struct {
 	Email       string `json:"email" binding:"required"`
 	OldPassword string `json:"oldPassword" binding:"required"`
 	NewPassword string `json:"newPassword" binding:"required"`
