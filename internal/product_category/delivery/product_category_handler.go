@@ -3,7 +3,7 @@ package delivery
 import (
 	"HaveBing-Backend/internal/domain"
 	"HaveBing-Backend/internal/middleware/error"
-	"HaveBing-Backend/internal/product_category/dto"
+	"HaveBing-Backend/internal/dto"
 	"net/http"
 	"strconv"
 

@@ -4,7 +4,7 @@ import (
 	"HaveBing-Backend/internal/domain"
 	"HaveBing-Backend/internal/middleware/auth"
 	"HaveBing-Backend/internal/middleware/error"
-	"HaveBing-Backend/internal/product/dto"
+	"HaveBing-Backend/internal/dto"
 	"net/http"
 	"strconv"
 
@@ -80,7 +80,7 @@ func (handler *ProductHandler) GetByCategoryId(ctx *gin.Context) {
 }
 
 func (handler *ProductHandler) GetByCategoryName(ctx *gin.Context) {
-	var body dto.ProductGetByCategoryNameDTO
+	var body dto.GetProductByCategoryNameDTO
 	if err := ctx.ShouldBind(&body); err != nil {
 		ctx.AbortWithError(http.StatusBadRequest, &error.ServerError{
 			Code: http.StatusBadRequest,
