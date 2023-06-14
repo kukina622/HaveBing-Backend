@@ -7,11 +7,11 @@ import (
 	"github.com/shopspring/decimal"
 )
 
-type GetProductByCategoryNameDTO struct {
+type GetProductByCategoryNameRequestDTO struct {
 	ProductCategory string `json:"categoryName" binding:"required"`
 }
 
-type AddProductDTO struct {
+type AddProductRequestDTO struct {
 	ProductName     string                  `form:"productName" binding:"required"`
 	Price           string                  `form:"price" binding:"required"`
 	Introduction    string                  `form:"introduction"`

@@ -29,7 +29,7 @@ func Register(router *gin.RouterGroup, userUsecase domain.UserUseCase) {
 }
 
 func (handler *UserHandler) Login(ctx *gin.Context) {
-	var body dto.LoginUserDTO
+	var body dto.LoginUserRequestDTO
 	if err := ctx.ShouldBindJSON(&body); err != nil {
 		ctx.AbortWithError(http.StatusBadRequest, &error.ServerError{
 			Code: http.StatusBadRequest,
@@ -53,7 +53,7 @@ func (handler *UserHandler) Login(ctx *gin.Context) {
 }
 
 func (handler *UserHandler) Register(ctx *gin.Context) {
-	var body dto.RegisterUserDTO
+	var body dto.RegisterUserRequestDTO
 	if err := ctx.ShouldBindJSON(&body); err != nil {
 		ctx.AbortWithError(http.StatusBadRequest, &error.ServerError{
 			Code: http.StatusBadRequest,
@@ -114,7 +114,7 @@ func (handler *UserHandler) GetAll(ctx *gin.Context) {
 }
 
 func (handler *UserHandler) ToggleUserAvailable(ctx *gin.Context) {
-	var body dto.ToggleUserAvailableDTO
+	var body dto.ToggleUserAvailableRequestDTO
 	if err := ctx.ShouldBindJSON(&body); err != nil {
 		ctx.AbortWithError(http.StatusBadRequest, &error.ServerError{
 			Code: http.StatusBadRequest,
@@ -139,7 +139,7 @@ func (handler *UserHandler) ToggleUserAvailable(ctx *gin.Context) {
 }
 
 func (handler *UserHandler) Update(ctx *gin.Context) {
-	var body dto.UpdateUserDTO
+	var body dto.UpdateUserRequestDTO
 	if err := ctx.ShouldBindJSON(&body); err != nil {
 		ctx.AbortWithError(http.StatusBadRequest, &error.ServerError{
 			Code: http.StatusBadRequest,

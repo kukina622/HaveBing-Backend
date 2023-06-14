@@ -1,6 +1,6 @@
 package dto
 
-type AddOrderDTO struct {
+type AddOrderRequestDTO struct {
 	UserId      uint `json:"userId"`
 	ProductList []struct {
 		ProductId uint `json:"productId"`

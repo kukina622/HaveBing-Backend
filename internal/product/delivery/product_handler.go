@@ -2,9 +2,9 @@ package delivery
 
 import (
 	"HaveBing-Backend/internal/domain"
+	"HaveBing-Backend/internal/dto"
 	"HaveBing-Backend/internal/middleware/auth"
 	"HaveBing-Backend/internal/middleware/error"
-	"HaveBing-Backend/internal/dto"
 	"net/http"
 	"strconv"
 
@@ -80,7 +80,7 @@ func (handler *ProductHandler) GetByCategoryId(ctx *gin.Context) {
 }
 
 func (handler *ProductHandler) GetByCategoryName(ctx *gin.Context) {
-	var body dto.GetProductByCategoryNameDTO
+	var body dto.GetProductByCategoryNameRequestDTO
 	if err := ctx.ShouldBind(&body); err != nil {
 		ctx.AbortWithError(http.StatusBadRequest, &error.ServerError{
 			Code: http.StatusBadRequest,
@@ -100,7 +100,7 @@ func (handler *ProductHandler) GetByCategoryName(ctx *gin.Context) {
 }
 
 func (handler *ProductHandler) Save(ctx *gin.Context) {
-	var body dto.AddProductDTO
+	var body dto.AddProductRequestDTO
 	if err := ctx.ShouldBind(&body); err != nil {
 		ctx.AbortWithError(http.StatusBadRequest, &error.ServerError{
 			Code: http.StatusBadRequest,
