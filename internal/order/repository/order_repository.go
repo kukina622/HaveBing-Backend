@@ -3,6 +3,7 @@ package repository
 import (
 	"HaveBing-Backend/internal/domain"
 	"context"
+	"fmt"
 
 	"gorm.io/gorm"
 	"gorm.io/gorm/clause"
@@ -33,9 +34,25 @@ func (r *orderRepository) GetByUserId(ctx context.Context, userId uint) ([]domai
 }
 
 func (r *orderRepository) Create(ctx context.Context, order *domain.Order) error {
-	return nil
+	return r.db.Save(order).Error
 }
 
 func (r *orderRepository) Update(ctx context.Context, order *domain.Order) error {
 	return nil
+}
+
+func (r *orderRepository) WithTransaction(ctx context.Context, txFunc func(*gorm.DB) error) (err error) {
+	tx := r.db.Begin()
+	defer func() {
+		if r := recover(); r != nil {
+			err = fmt.Errorf("panic: %v", r)
+			tx.Rollback()
+		} else if err != nil {
+			tx.Rollback()
+		} else {
+			tx.Commit()
+		}
+	}()
+	err = txFunc(tx)
+	return
 }

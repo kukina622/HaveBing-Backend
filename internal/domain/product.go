@@ -5,6 +5,7 @@ import (
 	"mime/multipart"
 
 	"github.com/shopspring/decimal"
+	"gorm.io/gorm"
 )
 
 type ProductImage struct {
@@ -30,6 +31,8 @@ type ProductRepository interface {
 	GetById(ctx context.Context, id uint) (*Product, error)
 	GetByCategoryId(ctx context.Context, categoryId uint) ([]Product, error)
 	Save(ctx context.Context, product *Product) error
+	DecreaseInventoryWithTx(ctx context.Context, tx *gorm.DB, id uint, quantity uint) error
+	GetByIdWithTx(ctx context.Context, tx *gorm.DB, id uint) (*Product, error)
 }
 
 type ProductUseCase interface {

@@ -47,7 +47,7 @@ func InitApplication(db *gorm.DB) *gin.Engine {
 	orderRepository := _orderRepository.New(db)
 	paymentRepository := _paymentRepository.New(db)
 	shippingRepository := _shippingRepository.New(db)
-	orderUsecase := _orderUsecase.New(orderRepository, paymentRepository, shippingRepository)
+	orderUsecase := _orderUsecase.New(orderRepository, paymentRepository, shippingRepository, productRepository)
 	_orderDelivery.Register(router, orderUsecase)
 
 	return app
