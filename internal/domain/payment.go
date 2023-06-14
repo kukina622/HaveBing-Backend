@@ -9,7 +9,7 @@ import (
 
 type Payment struct {
 	ID            uint            `gorm:"type:bigint(20) NOT NULL auto_increment;primary_key;" json:"paymentId"`
-	PaymentDate   time.Time       `gorm:"type:datetime"`
+	PaymentDate   *time.Time      `gorm:"type:datetime"`
 	ShippingFee   decimal.Decimal `gorm:"type:decimal(19,4) NOT NULL;"`
 	Amount        decimal.Decimal `gorm:"type:decimal(19,4) NOT NULL;"`
 	PaymentStatus string          `gorm:"type:varchar(255) NOT NULL;"`
