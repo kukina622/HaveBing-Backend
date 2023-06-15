@@ -21,6 +21,7 @@ import (
 	_paymentRepository "HaveBing-Backend/internal/payment/repository"
 	_shippingRepository "HaveBing-Backend/internal/shipping/repository"
 
+	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
 	"gorm.io/gorm"
 )
@@ -29,6 +30,12 @@ func InitApplication(db *gorm.DB) *gin.Engine {
 	app := gin.Default()
 
 	app.Use(error.ErrorHandler)
+	app.Static("/images", "bin/assets/images")
+
+	config := cors.DefaultConfig()
+	config.AllowHeaders = []string{"Origin", "Content-Length", "Content-Type", "Authorization"}
+	config.AllowAllOrigins = true
+	app.Use(cors.New(config))
 
 	router := app.Group("/api")
 
