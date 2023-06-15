@@ -6,6 +6,8 @@ type AddOrderDTO struct {
 		ProductId uint
 		Quantity  uint
 	}
+	Email          string
+	InvoiceType    string
 	Note           string
 	RecipientName  string
 	RecipientPhone string

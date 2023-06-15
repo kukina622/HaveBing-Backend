@@ -25,6 +25,7 @@ type Order struct {
 	UserId      uint        `gorm:"type:bigint(20) NOT NULL;index:idx_user_id;" json:"userId"`
 	Note        string      `gorm:"type:longtext" json:"note"`
 	OrderDate   time.Time   `gorm:"type:datetime" json:"orderDate"`
+	Email       string      `gorm:"type:varchar(255) NOT NULL;" json:"email"`
 	User        User        `gorm:"foreignKey:UserId" json:"user"`
 	Payment     Payment     `gorm:"foreignKey:OrderId" json:"payment"`
 	Shipping    Shipping    `gorm:"foreignKey:OrderId" json:"shipping"`

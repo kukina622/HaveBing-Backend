@@ -19,6 +19,7 @@ type Payment struct {
 	PaymentDate   *time.Time      `gorm:"type:datetime" json:"paymentDate"`
 	ShippingFee   decimal.Decimal `gorm:"type:decimal(19,4) NOT NULL;" json:"shippingFee"`
 	Amount        decimal.Decimal `gorm:"type:decimal(19,4) NOT NULL;" json:"amount"`
+	InvoiceType   string          `gorm:"type:varchar(255) NOT NULL;" json:"invoiceType"`
 	PaymentStatus paymentStatus   `gorm:"type:ENUM('unpaid', 'paid') NOT NULL;" json:"paymentStatus"`
 	OrderId       uint            `gorm:"type:bigint(20) NOT NULL;index:idx_order_id;" json:"orderId"`
 }

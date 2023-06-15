@@ -51,6 +51,7 @@ func (u *OrderUseCase) Create(ctx context.Context, newOrder *dto.AddOrderDTO) (*
 		UserId:      newOrder.UserId,
 		Note:        newOrder.Note,
 		OrderDate:   time.Now(),
+		Email:       newOrder.Email,
 	}
 
 	err := u.orderRepo.WithTransaction(ctx, func(tx *gorm.DB) error {
@@ -58,6 +59,7 @@ func (u *OrderUseCase) Create(ctx context.Context, newOrder *dto.AddOrderDTO) (*
 			PaymentDate:   nil,
 			ShippingFee:   decimal.NewFromInt(60),
 			PaymentStatus: domain.PaymentStatusUnpaid,
+			InvoiceType:   newOrder.InvoiceType,
 		}
 
 		shipping := domain.Shipping{
