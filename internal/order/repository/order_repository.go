@@ -24,7 +24,9 @@ func (r *orderRepository) GetAll(ctx context.Context) ([]domain.Order, error) {
 }
 
 func (r *orderRepository) GetById(ctx context.Context, id uint) (*domain.Order, error) {
-	return nil, nil
+	var order domain.Order
+	err := r.db.Joins("Payment").Joins("Shipping").Preload("User").Preload("OrderItem").Preload("OrderItem.Product.ProductCategory").First(&order, id).Error
+	return &order, err
 }
 
 func (r *orderRepository) GetByUserId(ctx context.Context, userId uint) ([]domain.Order, error) {

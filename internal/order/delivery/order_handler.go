@@ -4,6 +4,7 @@ import (
 	"HaveBing-Backend/internal/domain"
 	"HaveBing-Backend/internal/dto"
 	"HaveBing-Backend/internal/dto/request"
+	"HaveBing-Backend/internal/dto/response"
 	"HaveBing-Backend/internal/middleware/error"
 	"net/http"
 	"strconv"
@@ -20,6 +21,7 @@ func Register(router *gin.RouterGroup, orderUsecase domain.OrderUseCase) {
 		orderUsecase: orderUsecase,
 	}
 	router.GET("/order", handler.GetAll)
+	router.GET("/order/:id", handler.GetById)
 	router.GET("/user/:userId/order", handler.GetByUserId)
 	router.POST("/order", handler.Create)
 }
@@ -33,7 +35,7 @@ func (handler *OrderHandler) GetAll(ctx *gin.Context) {
 		})
 		return
 	}
-	ctx.JSON(http.StatusOK, orderList)
+	ctx.JSON(http.StatusOK, response.NewOrderResponseDTO(orderList))
 }
 
 func (handler *OrderHandler) GetByUserId(ctx *gin.Context) {
@@ -53,7 +55,27 @@ func (handler *OrderHandler) GetByUserId(ctx *gin.Context) {
 			Msg:  err.Error(),
 		})
 	}
-	ctx.JSON(http.StatusOK, orderList)
+	ctx.JSON(http.StatusOK, response.NewOrderResponseDTO(orderList))
+}
+
+func (handler *OrderHandler) GetById(ctx *gin.Context) {
+	id, err := strconv.Atoi(ctx.Param("id"))
+	if err != nil {
+		ctx.AbortWithError(http.StatusBadRequest, &error.ServerError{
+			Code: http.StatusBadRequest,
+			Msg:  err.Error(),
+		})
+		return
+	}
+	order, err := handler.orderUsecase.GetById(ctx, uint(id))
+	if err != nil {
+		ctx.AbortWithError(http.StatusNotFound, &error.ServerError{
+			Code: http.StatusNotFound,
+			Msg:  err.Error(),
+		})
+		return
+	}
+	ctx.JSON(http.StatusOK, response.NewOrderResponseDTO(order))
 }
 
 func (handler *OrderHandler) Create(ctx *gin.Context) {
@@ -98,5 +120,5 @@ func (handler *OrderHandler) Create(ctx *gin.Context) {
 		})
 		return
 	}
-	ctx.JSON(http.StatusOK, order)
+	ctx.JSON(http.StatusOK, response.NewOrderResponseDTO(order))
 }

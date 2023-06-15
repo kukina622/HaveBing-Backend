@@ -37,7 +37,7 @@ func (u *OrderUseCase) GetAll(ctx context.Context) ([]domain.Order, error) {
 }
 
 func (u *OrderUseCase) GetById(ctx context.Context, id uint) (*domain.Order, error) {
-	return nil, nil
+	return u.orderRepo.GetById(ctx, id)
 }
 
 func (u *OrderUseCase) GetByUserId(ctx context.Context, userId uint) ([]domain.Order, error) {
@@ -104,7 +104,12 @@ func (u *OrderUseCase) Create(ctx context.Context, newOrder *dto.AddOrderDTO) (*
 		return nil, err
 	}
 
-	return order, nil
+	currentOrder, err := u.orderRepo.GetById(ctx, order.ID)
+
+	if err != nil {
+		return nil, err
+	}
+	return currentOrder, nil
 }
 
 func (u *OrderUseCase) Update(ctx context.Context, order *domain.Order) error {
