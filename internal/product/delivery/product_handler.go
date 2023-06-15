@@ -3,6 +3,7 @@ package delivery
 import (
 	"HaveBing-Backend/internal/domain"
 	"HaveBing-Backend/internal/dto/request"
+	"HaveBing-Backend/internal/dto/response"
 	"HaveBing-Backend/internal/middleware/auth"
 	"HaveBing-Backend/internal/middleware/error"
 	"net/http"
@@ -36,7 +37,7 @@ func (handler *ProductHandler) GetAll(ctx *gin.Context) {
 		})
 		return
 	}
-	ctx.JSON(http.StatusOK, request.NewProductResponse(product))
+	ctx.JSON(http.StatusOK, response.NewProductResponse(product))
 }
 
 func (handler *ProductHandler) GetById(ctx *gin.Context) {
@@ -56,7 +57,7 @@ func (handler *ProductHandler) GetById(ctx *gin.Context) {
 		})
 		return
 	}
-	ctx.JSON(http.StatusOK, request.NewProductResponse(product))
+	ctx.JSON(http.StatusOK, response.NewProductResponse(product))
 }
 
 func (handler *ProductHandler) GetByCategoryId(ctx *gin.Context) {
@@ -76,7 +77,7 @@ func (handler *ProductHandler) GetByCategoryId(ctx *gin.Context) {
 		})
 		return
 	}
-	ctx.JSON(http.StatusOK, request.NewProductResponse(product))
+	ctx.JSON(http.StatusOK, response.NewProductResponse(product))
 }
 
 func (handler *ProductHandler) GetByCategoryName(ctx *gin.Context) {
@@ -96,7 +97,7 @@ func (handler *ProductHandler) GetByCategoryName(ctx *gin.Context) {
 		})
 		return
 	}
-	ctx.JSON(http.StatusOK, request.NewProductResponse(product))
+	ctx.JSON(http.StatusOK, response.NewProductResponse(product))
 }
 
 func (handler *ProductHandler) Save(ctx *gin.Context) {

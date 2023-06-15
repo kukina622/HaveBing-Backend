@@ -3,6 +3,7 @@ package delivery
 import (
 	"HaveBing-Backend/internal/domain"
 	"HaveBing-Backend/internal/dto/request"
+	"HaveBing-Backend/internal/dto/response"
 	"HaveBing-Backend/internal/middleware/auth"
 	"HaveBing-Backend/internal/middleware/error"
 	jwtUtil "HaveBing-Backend/internal/util/jwt"
@@ -38,8 +39,8 @@ func (handler *UserHandler) Login(ctx *gin.Context) {
 		return
 	}
 	if ok, user, token := handler.userUseCase.Login(ctx, body.Email, body.Password); ok {
-		userResponse, _ := request.NewUserResponse(user).(request.UserResponseDTO)
-		responseBody := &request.UserWithTokenResponseDTO{
+		userResponse, _ := response.NewUserResponse(user).(response.UserResponseDTO)
+		responseBody := &response.UserWithTokenResponseDTO{
 			UserResponseDTO: userResponse,
 			Token:           token,
 		}
@@ -98,7 +99,7 @@ func (handler *UserHandler) GetCurrentUser(ctx *gin.Context) {
 		})
 		return
 	}
-	ctx.JSON(http.StatusOK, request.NewUserResponse(user))
+	ctx.JSON(http.StatusOK, response.NewUserResponse(user))
 }
 
 func (handler *UserHandler) GetAll(ctx *gin.Context) {
@@ -110,7 +111,7 @@ func (handler *UserHandler) GetAll(ctx *gin.Context) {
 		})
 		return
 	}
-	ctx.JSON(http.StatusOK, request.NewUserResponse(users))
+	ctx.JSON(http.StatusOK, response.NewUserResponse(users))
 }
 
 func (handler *UserHandler) ToggleUserAvailable(ctx *gin.Context) {
