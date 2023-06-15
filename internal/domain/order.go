@@ -55,4 +55,5 @@ type OrderRepository interface {
 	Create(ctx context.Context, order *Order) error
 	Update(ctx context.Context, order *Order) error
 	WithTransaction(ctx context.Context, txFunc func(*gorm.DB) error) (err error)
+	CreateWithTx(ctx context.Context, tx *gorm.DB, order *Order) error
 }

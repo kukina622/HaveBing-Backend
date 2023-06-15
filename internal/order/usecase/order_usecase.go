@@ -93,6 +93,11 @@ func (u *OrderUseCase) Create(ctx context.Context, newOrder *dto.AddOrderDTO) (*
 		order.OrderItem = orderItemList
 		order.Payment = payment
 		order.Shipping = shipping
+
+		if err := u.orderRepo.CreateWithTx(ctx, tx, order); err != nil {
+			return err
+		}
+
 		return nil
 	})
 
@@ -100,12 +105,7 @@ func (u *OrderUseCase) Create(ctx context.Context, newOrder *dto.AddOrderDTO) (*
 		return nil, err
 	}
 
-	if err := u.orderRepo.Create(ctx, order); err != nil {
-		return nil, err
-	}
-
 	currentOrder, err := u.orderRepo.GetById(ctx, order.ID)
-
 	if err != nil {
 		return nil, err
 	}

@@ -41,6 +41,9 @@ func (r *orderRepository) Create(ctx context.Context, order *domain.Order) error
 func (r *orderRepository) Update(ctx context.Context, order *domain.Order) error {
 	return nil
 }
+func (r *orderRepository) CreateWithTx(ctx context.Context, tx *gorm.DB, order *domain.Order) error {
+	return tx.Create(order).Error
+}
 
 func (r *orderRepository) WithTransaction(ctx context.Context, txFunc func(*gorm.DB) error) (err error) {
 	tx := r.db.Begin()
