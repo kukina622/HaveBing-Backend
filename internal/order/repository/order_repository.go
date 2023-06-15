@@ -6,7 +6,6 @@ import (
 	"fmt"
 
 	"gorm.io/gorm"
-	"gorm.io/gorm/clause"
 )
 
 type orderRepository struct {
@@ -31,7 +30,7 @@ func (r *orderRepository) GetById(ctx context.Context, id uint) (*domain.Order, 
 
 func (r *orderRepository) GetByUserId(ctx context.Context, userId uint) ([]domain.Order, error) {
 	var orderList []domain.Order
-	err := r.db.Preload(clause.Associations).Where("user_id = ?", userId).Find(&orderList).Error
+	err := r.db.Joins("Payment").Joins("Shipping").Preload("User").Preload("OrderItem").Preload("OrderItem.Product.ProductCategory").Where("user_id = ?", userId).Find(&orderList).Error
 	return orderList, err
 }
 
