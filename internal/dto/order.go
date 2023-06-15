@@ -14,4 +14,5 @@ type AddOrderDTO struct {
 	Address              string
 	ShippingMethod       string
 	ExpectedDeliveryDate string
+	PaymentMethod        string
 }

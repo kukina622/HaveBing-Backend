@@ -114,6 +114,7 @@ func (handler *OrderHandler) Create(ctx *gin.Context) {
 		Email:                body.Email,
 		InvoiceType:          body.InvoiceType,
 		ExpectedDeliveryDate: body.ExpectedDeliveryDate,
+		PaymentMethod:        body.PaymentMethod,
 	}
 	order, err := handler.orderUsecase.Create(ctx, &newOder)
 	if err != nil {

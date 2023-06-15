@@ -10,6 +10,7 @@ type AddOrderRequestDTO struct {
 	Email                string                          `json:"email"`
 	Address              string                          `json:"address"`
 	ShippingMethod       string                          `json:"shippingMethod"`
+	PaymentMethod        string                          `json:"paymentMethod"`
 	InvoiceType          string                          `json:"invoiceType"`
 }
 

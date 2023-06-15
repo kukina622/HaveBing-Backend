@@ -5,6 +5,7 @@ import (
 	"HaveBing-Backend/internal/dto"
 	"HaveBing-Backend/internal/util/snowflake"
 	"context"
+	"errors"
 	"time"
 
 	"github.com/shopspring/decimal"
@@ -55,11 +56,17 @@ func (u *OrderUseCase) Create(ctx context.Context, newOrder *dto.AddOrderDTO) (*
 	}
 
 	err := u.orderRepo.WithTransaction(ctx, func(tx *gorm.DB) error {
+
+		if newOrder.PaymentMethod != "transfer" {
+			return errors.New("invalid payment method")
+		}
+
 		payment := domain.Payment{
 			PaymentDate:   nil,
 			ShippingFee:   decimal.NewFromInt(60),
 			PaymentStatus: domain.PaymentStatusUnpaid,
 			InvoiceType:   newOrder.InvoiceType,
+			PaymentMethod: domain.PaymentMethodTransfer,
 		}
 
 		expectedDeliveryDate, err := time.Parse("2006-01-02", newOrder.ExpectedDeliveryDate)
