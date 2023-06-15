@@ -62,11 +62,19 @@ func (u *OrderUseCase) Create(ctx context.Context, newOrder *dto.AddOrderDTO) (*
 			InvoiceType:   newOrder.InvoiceType,
 		}
 
+		expectedDeliveryDate, err := time.Parse("2006-01-02", newOrder.ExpectedDeliveryDate)
+		expectedDeliveryDateAddr := &expectedDeliveryDate
+
+		if err != nil {
+			expectedDeliveryDateAddr = nil
+		}
+
 		shipping := domain.Shipping{
-			RecipientName:  newOrder.RecipientName,
-			RecipientPhone: newOrder.RecipientPhone,
-			Address:        newOrder.Address,
-			ShippingMethod: newOrder.ShippingMethod,
+			RecipientName:        newOrder.RecipientName,
+			RecipientPhone:       newOrder.RecipientPhone,
+			Address:              newOrder.Address,
+			ShippingMethod:       newOrder.ShippingMethod,
+			ExpectedDeliveryDate: expectedDeliveryDateAddr,
 		}
 
 		orderItemList := []domain.OrderItem{}

@@ -1,15 +1,16 @@
 package request
 
 type AddOrderRequestDTO struct {
-	UserId         uint                            `json:"userId"`
-	ProductList    []AddOrderProductListRequestDTO `json:"productList"`
-	Note           string                          `json:"note"`
-	RecipientName  string                          `json:"recipientName"`
-	RecipientPhone string                          `json:"recipientPhone"`
-	Email          string                          `json:"email"`
-	Address        string                          `json:"address"`
-	ShippingMethod string                          `json:"shippingMethod"`
-	InvoiceType    string                          `json:"invoiceType"`
+	UserId               uint                            `json:"userId"`
+	ProductList          []AddOrderProductListRequestDTO `json:"productList"`
+	Note                 string                          `json:"note"`
+	RecipientName        string                          `json:"recipientName"`
+	RecipientPhone       string                          `json:"recipientPhone"`
+	ExpectedDeliveryDate string                          `json:"expectedDeliveryDate"`
+	Email                string                          `json:"email"`
+	Address              string                          `json:"address"`
+	ShippingMethod       string                          `json:"shippingMethod"`
+	InvoiceType          string                          `json:"invoiceType"`
 }
 
 type AddOrderProductListRequestDTO struct {

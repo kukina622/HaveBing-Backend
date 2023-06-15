@@ -104,15 +104,16 @@ func (handler *OrderHandler) Create(ctx *gin.Context) {
 	}
 
 	newOder := dto.AddOrderDTO{
-		UserId:         body.UserId,
-		Note:           body.Note,
-		RecipientName:  body.RecipientName,
-		RecipientPhone: body.RecipientPhone,
-		Address:        body.Address,
-		ProductList:    productList,
-		ShippingMethod: body.ShippingMethod,
-		Email:          body.Email,
-		InvoiceType:    body.InvoiceType,
+		UserId:               body.UserId,
+		Note:                 body.Note,
+		RecipientName:        body.RecipientName,
+		RecipientPhone:       body.RecipientPhone,
+		Address:              body.Address,
+		ProductList:          productList,
+		ShippingMethod:       body.ShippingMethod,
+		Email:                body.Email,
+		InvoiceType:          body.InvoiceType,
+		ExpectedDeliveryDate: body.ExpectedDeliveryDate,
 	}
 	order, err := handler.orderUsecase.Create(ctx, &newOder)
 	if err != nil {
