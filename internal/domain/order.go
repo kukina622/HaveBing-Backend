@@ -20,24 +20,24 @@ const (
 
 type Order struct {
 	ID          uint        `gorm:"type:bigint(20) NOT NULL auto_increment;primary_key;" json:"orderId"`
-	OrderNumber string      `gorm:"type:varchar(255) NOT NULL;"`
-	Status      OrderStatus `gorm:"type:ENUM('preparing', 'shipping', 'done', 'canceled') NOT NULL;"`
+	OrderNumber string      `gorm:"type:varchar(255) NOT NULL;" json:"orderNumber"`
+	Status      OrderStatus `gorm:"type:ENUM('preparing', 'shipping', 'done', 'canceled') NOT NULL;" json:"status"`
 	UserId      uint        `gorm:"type:bigint(20) NOT NULL;index:idx_user_id;" json:"userId"`
-	Note        string      `gorm:"type:longtext"`
-	OrderDate   time.Time   `gorm:"type:datetime"`
-	User        User        `gorm:"foreignKey:UserId"`
-	Payment     Payment     `gorm:"foreignKey:OrderId"`
-	Shipping    Shipping    `gorm:"foreignKey:OrderId"`
-	OrderItem   []OrderItem `gorm:"foreignKey:OrderId"`
+	Note        string      `gorm:"type:longtext" json:"note"`
+	OrderDate   time.Time   `gorm:"type:datetime" json:"orderDate"`
+	User        User        `gorm:"foreignKey:UserId" json:"user"`
+	Payment     Payment     `gorm:"foreignKey:OrderId" json:"payment"`
+	Shipping    Shipping    `gorm:"foreignKey:OrderId" json:"shipping"`
+	OrderItem   []OrderItem `gorm:"foreignKey:OrderId" json:"orderItem"`
 }
 
 type OrderItem struct {
 	ID        uint            `gorm:"type:bigint(20) NOT NULL auto_increment;primary_key;" json:"orderItemId"`
-	Quality   uint            `gorm:"type:int(11) NOT NULL;"`
-	Price     decimal.Decimal `gorm:"type:decimal(19,4) NOT NULL;"`
+	Quality   uint            `gorm:"type:int(11) NOT NULL;" json:"quality"`
+	Price     decimal.Decimal `gorm:"type:decimal(19,4) NOT NULL;" json:"price"`
 	ProductId uint            `gorm:"type:bigint(20) NOT NULL;index:idx_product_id;" json:"productId"`
 	OrderId   uint            `gorm:"type:bigint(20) NOT NULL;index:idx_order_id;" json:"orderId"`
-	Product   Product         `gorm:"foreignKey:ProductId"`
+	Product   Product         `gorm:"foreignKey:ProductId" json:"product"`
 }
 
 type OrderUseCase interface {

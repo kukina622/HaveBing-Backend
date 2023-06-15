@@ -16,10 +16,10 @@ const (
 
 type Payment struct {
 	ID            uint            `gorm:"type:bigint(20) NOT NULL auto_increment;primary_key;" json:"paymentId"`
-	PaymentDate   *time.Time      `gorm:"type:datetime"`
-	ShippingFee   decimal.Decimal `gorm:"type:decimal(19,4) NOT NULL;"`
-	Amount        decimal.Decimal `gorm:"type:decimal(19,4) NOT NULL;"`
-	PaymentStatus paymentStatus   `gorm:"type:ENUM('unpaid', 'paid') NOT NULL;"`
+	PaymentDate   *time.Time      `gorm:"type:datetime" json:"paymentDate"`
+	ShippingFee   decimal.Decimal `gorm:"type:decimal(19,4) NOT NULL;" json:"shippingFee"`
+	Amount        decimal.Decimal `gorm:"type:decimal(19,4) NOT NULL;" json:"amount"`
+	PaymentStatus paymentStatus   `gorm:"type:ENUM('unpaid', 'paid') NOT NULL;" json:"paymentStatus"`
 	OrderId       uint            `gorm:"type:bigint(20) NOT NULL;index:idx_order_id;" json:"orderId"`
 }
 

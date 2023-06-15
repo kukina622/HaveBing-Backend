@@ -15,15 +15,15 @@ type ProductImage struct {
 }
 
 type Product struct {
-	ID                uint            `gorm:"type:bigint(20) NOT NULL auto_increment;primary_key;"`
-	ProductName       string          `gorm:"type:mediumtext NOT NULL;"`
-	Price             decimal.Decimal `gorm:"type:decimal(19,4) NOT NULL;"`
-	Introduction      string          `gorm:"type:longtext;"`
-	Information       string          `gorm:"type:longtext;"`
-	Inventory         uint            `gorm:"type:int(11) NOT NULL; check:inventory>=0;"`
-	ProductCategoryId uint            `gorm:"type:bigint(20) NOT NULL;"`
-	ProductImage      []ProductImage  `gorm:"foreignKey:ProductId"`
-	ProductCategory   ProductCategory
+	ID                uint            `gorm:"type:bigint(20) NOT NULL auto_increment;primary_key;" json:"productId"`
+	ProductName       string          `gorm:"type:mediumtext NOT NULL;" json:"productName"`
+	Price             decimal.Decimal `gorm:"type:decimal(19,4) NOT NULL;" json:"price"`
+	Introduction      string          `gorm:"type:longtext;" json:"introduction"`
+	Information       string          `gorm:"type:longtext;" json:"information"`
+	Inventory         uint            `gorm:"type:int(11) NOT NULL; check:inventory>=0;" json:"inventory"`
+	ProductCategoryId uint            `gorm:"type:bigint(20) NOT NULL;" json:"productCategoryId"`
+	ProductImage      []ProductImage  `gorm:"foreignKey:ProductId" json:"productImage"`
+	ProductCategory   ProductCategory `json:"productCategory"`
 }
 
 type ProductRepository interface {
