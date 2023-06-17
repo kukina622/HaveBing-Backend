@@ -5,6 +5,7 @@ import (
 	"HaveBing-Backend/internal/dto"
 	"HaveBing-Backend/internal/dto/request"
 	"HaveBing-Backend/internal/dto/response"
+	"HaveBing-Backend/internal/middleware/auth"
 	"HaveBing-Backend/internal/middleware/error"
 	"net/http"
 	"strconv"
@@ -23,7 +24,7 @@ func Register(router *gin.RouterGroup, orderUsecase domain.OrderUseCase) {
 	router.GET("/order", handler.GetAll)
 	router.GET("/order/:id", handler.GetById)
 	router.GET("/user/:userId/order", handler.GetByUserId)
-	router.POST("/order", handler.Create)
+	router.POST("/order", auth.JwtAuthMiddleware, handler.Create)
 }
 
 func (handler *OrderHandler) GetAll(ctx *gin.Context) {
