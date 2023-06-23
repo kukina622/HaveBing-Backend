@@ -1,0 +1,26 @@
+services:
+  app:
+    image: backend
+    build: .
+    ports:
+      - "127.0.0.1:8000:8000"
+    depends_on:
+      - "mariadb"
+  mariadb:
+    image: mariadb
+    ports:
+      - "127.0.0.1:3306:3306"
+    environment:
+      MARIADB_ROOT_PASSWORD: "thesuperhardpasswordyouwanttoaccessthedatabase"
+      MARIADB_DATABASE: "havebing"
+      MARIADB_USER: "havebing"
+      MARIADB_PASSWORD: "itspasswordforhavebingdb"
+
+  phpmyadmin:
+    image: phpmyadmin
+    ports:
+      - "127.0.0.1:9100:80"
+    environment:
+      - PMA_HOST=mariadb
+    depends_on:
+      - "mariadb"
