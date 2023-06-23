@@ -7,5 +7,7 @@ COPY . .
 RUN go test ./... && go build -o /bin/server cmd/server.go
 
 FROM alpine:latest AS release
-COPY --from=builder /bin/server /bin/server
-ENTRYPOINT [ "/bin/server" ]
+WORKDIR /app
+COPY --from=builder /bin/server ./server 
+COPY .env ./.env
+ENTRYPOINT ["./server"]
