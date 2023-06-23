@@ -7,7 +7,7 @@ import (
 )
 
 var (
-	once sync.Once
+	once     sync.Once
 	instance *snowflake.Node
 )
 
