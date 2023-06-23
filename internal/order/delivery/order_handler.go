@@ -32,7 +32,7 @@ func (handler *OrderHandler) GetAll(ctx *gin.Context) {
 	if err != nil {
 		ctx.AbortWithError(http.StatusBadRequest, &error.ServerError{
 			Code: http.StatusBadRequest,
-			Msg:  err.Error(),
+			Msg:  error.RESOURCE_NOT_FOUND,
 		})
 		return
 	}
@@ -44,7 +44,7 @@ func (handler *OrderHandler) GetByUserId(ctx *gin.Context) {
 	if err != nil {
 		ctx.AbortWithError(http.StatusBadRequest, &error.ServerError{
 			Code: http.StatusBadRequest,
-			Msg:  err.Error(),
+			Msg:  error.MISSING_PARAMETER,
 		})
 		return
 	}
@@ -53,7 +53,7 @@ func (handler *OrderHandler) GetByUserId(ctx *gin.Context) {
 	if err != nil {
 		ctx.AbortWithError(http.StatusNotFound, &error.ServerError{
 			Code: http.StatusNotFound,
-			Msg:  err.Error(),
+			Msg:  error.RESOURCE_NOT_FOUND,
 		})
 	}
 	ctx.JSON(http.StatusOK, response.NewOrderResponseDTO(orderList))
@@ -64,7 +64,7 @@ func (handler *OrderHandler) GetById(ctx *gin.Context) {
 	if err != nil {
 		ctx.AbortWithError(http.StatusBadRequest, &error.ServerError{
 			Code: http.StatusBadRequest,
-			Msg:  err.Error(),
+			Msg:  error.MISSING_PARAMETER,
 		})
 		return
 	}
@@ -72,7 +72,7 @@ func (handler *OrderHandler) GetById(ctx *gin.Context) {
 	if err != nil {
 		ctx.AbortWithError(http.StatusNotFound, &error.ServerError{
 			Code: http.StatusNotFound,
-			Msg:  err.Error(),
+			Msg:  error.RESOURCE_NOT_FOUND,
 		})
 		return
 	}
@@ -84,7 +84,7 @@ func (handler *OrderHandler) Create(ctx *gin.Context) {
 	if err := ctx.ShouldBindJSON(&body); err != nil {
 		ctx.AbortWithError(http.StatusBadRequest, &error.ServerError{
 			Code: http.StatusBadRequest,
-			Msg:  err.Error(),
+			Msg:  error.MISSING_PARAMETER,
 		})
 		return
 	}
@@ -121,7 +121,7 @@ func (handler *OrderHandler) Create(ctx *gin.Context) {
 	if err != nil {
 		ctx.AbortWithError(http.StatusBadRequest, &error.ServerError{
 			Code: http.StatusBadRequest,
-			Msg:  err.Error(),
+			Msg:  error.CREATE_RESOURCE_FAILED,
 		})
 		return
 	}
