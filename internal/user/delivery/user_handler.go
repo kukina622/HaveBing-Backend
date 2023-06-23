@@ -34,7 +34,7 @@ func (handler *UserHandler) Login(ctx *gin.Context) {
 	if err := ctx.ShouldBindJSON(&body); err != nil {
 		ctx.AbortWithError(http.StatusBadRequest, &error.ServerError{
 			Code: http.StatusBadRequest,
-			Msg:  err.Error(),
+			Msg:  error.MISSING_PARAMETER,
 		})
 		return
 	}
@@ -58,7 +58,7 @@ func (handler *UserHandler) Register(ctx *gin.Context) {
 	if err := ctx.ShouldBindJSON(&body); err != nil {
 		ctx.AbortWithError(http.StatusBadRequest, &error.ServerError{
 			Code: http.StatusBadRequest,
-			Msg:  err.Error(),
+			Msg:  error.MISSING_PARAMETER,
 		})
 		return
 	}
@@ -67,7 +67,7 @@ func (handler *UserHandler) Register(ctx *gin.Context) {
 	if err != nil {
 		ctx.AbortWithError(http.StatusBadRequest, &error.ServerError{
 			Code: http.StatusBadRequest,
-			Msg:  err.Error(),
+			Msg:  "Birthday is invalid",
 		})
 		return
 	}
@@ -83,7 +83,7 @@ func (handler *UserHandler) Register(ctx *gin.Context) {
 	if err := handler.userUseCase.Register(ctx, &user); err != nil {
 		ctx.AbortWithError(http.StatusBadRequest, &error.ServerError{
 			Code: http.StatusBadRequest,
-			Msg:  err.Error(),
+			Msg:  "Register failed",
 		})
 		return
 	}
@@ -95,7 +95,7 @@ func (handler *UserHandler) GetCurrentUser(ctx *gin.Context) {
 	if err != nil {
 		ctx.AbortWithError(http.StatusNotFound, &error.ServerError{
 			Code: http.StatusNotFound,
-			Msg:  err.Error(),
+			Msg:  error.RESOURCE_NOT_FOUND,
 		})
 		return
 	}
@@ -107,7 +107,7 @@ func (handler *UserHandler) GetAll(ctx *gin.Context) {
 	if err != nil {
 		ctx.AbortWithError(http.StatusNotFound, &error.ServerError{
 			Code: http.StatusNotFound,
-			Msg:  err.Error(),
+			Msg:  error.RESOURCE_NOT_FOUND,
 		})
 		return
 	}
@@ -119,7 +119,7 @@ func (handler *UserHandler) ToggleUserAvailable(ctx *gin.Context) {
 	if err := ctx.ShouldBindJSON(&body); err != nil {
 		ctx.AbortWithError(http.StatusBadRequest, &error.ServerError{
 			Code: http.StatusBadRequest,
-			Msg:  err.Error(),
+			Msg:  error.MISSING_PARAMETER,
 		})
 		return
 	}
@@ -132,7 +132,7 @@ func (handler *UserHandler) ToggleUserAvailable(ctx *gin.Context) {
 	if err := handler.userUseCase.ToggleUserAvailable(ctx, &user); err != nil {
 		ctx.AbortWithError(http.StatusBadRequest, &error.ServerError{
 			Code: http.StatusBadRequest,
-			Msg:  err.Error(),
+			Msg:  error.UPDATE_RESOURCE_FAILED,
 		})
 		return
 	}
@@ -144,7 +144,7 @@ func (handler *UserHandler) Update(ctx *gin.Context) {
 	if err := ctx.ShouldBindJSON(&body); err != nil {
 		ctx.AbortWithError(http.StatusBadRequest, &error.ServerError{
 			Code: http.StatusBadRequest,
-			Msg:  err.Error(),
+			Msg:  error.MISSING_PARAMETER,
 		})
 		return
 	}
@@ -153,7 +153,7 @@ func (handler *UserHandler) Update(ctx *gin.Context) {
 	if err != nil {
 		ctx.AbortWithError(http.StatusBadRequest, &error.ServerError{
 			Code: http.StatusBadRequest,
-			Msg:  err.Error(),
+			Msg:  "Birthday is invalid",
 		})
 		return
 	}
@@ -163,7 +163,7 @@ func (handler *UserHandler) Update(ctx *gin.Context) {
 	if err != nil {
 		ctx.AbortWithError(http.StatusBadRequest, &error.ServerError{
 			Code: http.StatusBadRequest,
-			Msg:  err.Error(),
+			Msg:  "Token is invalid",
 		})
 		return
 	}
@@ -179,7 +179,7 @@ func (handler *UserHandler) Update(ctx *gin.Context) {
 	if err := handler.userUseCase.Update(ctx, &user, body.OldPassword, body.NewPassword); err != nil {
 		ctx.AbortWithError(http.StatusBadRequest, &error.ServerError{
 			Code: http.StatusBadRequest,
-			Msg:  err.Error(),
+			Msg:  error.UPDATE_RESOURCE_FAILED,
 		})
 		return
 	}

@@ -14,7 +14,7 @@ func AdminAuthMiddleware(ctx *gin.Context) {
 	if err != nil {
 		ctx.AbortWithError(http.StatusUnauthorized, &error.ServerError{
 			Code: http.StatusUnauthorized,
-			Msg:  "Unauthorized",
+			Msg:  error.UNAUTHORIZED,
 		})
 		return
 	}
@@ -22,7 +22,7 @@ func AdminAuthMiddleware(ctx *gin.Context) {
 	if payloadRole == nil {
 		ctx.AbortWithError(http.StatusUnauthorized, &error.ServerError{
 			Code: http.StatusUnauthorized,
-			Msg:  "Unauthorized",
+			Msg:  error.UNAUTHORIZED,
 		})
 		return
 	}
@@ -33,6 +33,6 @@ func AdminAuthMiddleware(ctx *gin.Context) {
 	}
 	ctx.AbortWithError(http.StatusUnauthorized, &error.ServerError{
 		Code: http.StatusUnauthorized,
-		Msg:  "Unauthorized",
+		Msg:  error.UNAUTHORIZED,
 	})
 }

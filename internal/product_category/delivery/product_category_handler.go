@@ -29,7 +29,7 @@ func (handler *ProductCategoryHandler) GetAll(ctx *gin.Context) {
 	if err != nil {
 		ctx.AbortWithError(http.StatusNotFound, &error.ServerError{
 			Code: http.StatusNotFound,
-			Msg:  err.Error(),
+			Msg:  error.RESOURCE_NOT_FOUND,
 		})
 		return
 	}
@@ -42,7 +42,7 @@ func (handler *ProductCategoryHandler) Save(ctx *gin.Context) {
 	if err := ctx.ShouldBind(&body); err != nil {
 		ctx.AbortWithError(http.StatusBadRequest, &error.ServerError{
 			Code: http.StatusBadRequest,
-			Msg:  err.Error(),
+			Msg:  error.MISSING_PARAMETER,
 		})
 		return
 	}
@@ -54,7 +54,7 @@ func (handler *ProductCategoryHandler) Save(ctx *gin.Context) {
 	if err := handler.productCategoryUseCase.Save(ctx, &p); err != nil {
 		ctx.AbortWithError(http.StatusBadRequest, &error.ServerError{
 			Code: http.StatusBadRequest,
-			Msg:  err.Error(),
+			Msg:  error.CREATE_RESOURCE_FAILED,
 		})
 		return
 	}
@@ -67,7 +67,7 @@ func (handler *ProductCategoryHandler) GetById(ctx *gin.Context) {
 	if err != nil {
 		ctx.AbortWithError(http.StatusBadRequest, &error.ServerError{
 			Code: http.StatusBadRequest,
-			Msg:  err.Error(),
+			Msg:  error.MISSING_PARAMETER,
 		})
 		return
 	}
@@ -76,7 +76,7 @@ func (handler *ProductCategoryHandler) GetById(ctx *gin.Context) {
 	if err != nil {
 		ctx.AbortWithError(http.StatusBadRequest, &error.ServerError{
 			Code: http.StatusBadRequest,
-			Msg:  err.Error(),
+			Msg:  error.RESOURCE_NOT_FOUND,
 		})
 		return
 	}
@@ -89,7 +89,7 @@ func (handler *ProductCategoryHandler) Update(ctx *gin.Context) {
 	if err := ctx.ShouldBind(&body); err != nil {
 		ctx.AbortWithError(http.StatusBadRequest, &error.ServerError{
 			Code: http.StatusBadRequest,
-			Msg:  err.Error(),
+			Msg:  error.MISSING_PARAMETER,
 		})
 		return
 	}
@@ -101,7 +101,7 @@ func (handler *ProductCategoryHandler) Update(ctx *gin.Context) {
 	if err := handler.productCategoryUseCase.Update(ctx, &p); err != nil {
 		ctx.AbortWithError(http.StatusBadRequest, &error.ServerError{
 			Code: http.StatusBadRequest,
-			Msg:  err.Error(),
+			Msg:  error.UPDATE_RESOURCE_FAILED,
 		})
 		return
 	}

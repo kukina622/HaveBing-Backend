@@ -33,7 +33,7 @@ func (handler *ProductHandler) GetAll(ctx *gin.Context) {
 	if err != nil {
 		ctx.AbortWithError(http.StatusNotFound, &error.ServerError{
 			Code: http.StatusNotFound,
-			Msg:  err.Error(),
+			Msg:  error.RESOURCE_NOT_FOUND,
 		})
 		return
 	}
@@ -45,7 +45,7 @@ func (handler *ProductHandler) GetById(ctx *gin.Context) {
 	if err != nil {
 		ctx.AbortWithError(http.StatusBadRequest, &error.ServerError{
 			Code: http.StatusBadRequest,
-			Msg:  err.Error(),
+			Msg:  error.MISSING_PARAMETER,
 		})
 		return
 	}
@@ -53,7 +53,7 @@ func (handler *ProductHandler) GetById(ctx *gin.Context) {
 	if err != nil {
 		ctx.AbortWithError(http.StatusNotFound, &error.ServerError{
 			Code: http.StatusNotFound,
-			Msg:  err.Error(),
+			Msg:  error.RESOURCE_NOT_FOUND,
 		})
 		return
 	}
@@ -65,7 +65,7 @@ func (handler *ProductHandler) GetByCategoryId(ctx *gin.Context) {
 	if err != nil {
 		ctx.AbortWithError(http.StatusBadRequest, &error.ServerError{
 			Code: http.StatusBadRequest,
-			Msg:  err.Error(),
+			Msg:  error.MISSING_PARAMETER,
 		})
 		return
 	}
@@ -73,7 +73,7 @@ func (handler *ProductHandler) GetByCategoryId(ctx *gin.Context) {
 	if err != nil {
 		ctx.AbortWithError(http.StatusNotFound, &error.ServerError{
 			Code: http.StatusNotFound,
-			Msg:  err.Error(),
+			Msg:  error.RESOURCE_NOT_FOUND,
 		})
 		return
 	}
@@ -85,7 +85,7 @@ func (handler *ProductHandler) GetByCategoryName(ctx *gin.Context) {
 	if err := ctx.ShouldBind(&body); err != nil {
 		ctx.AbortWithError(http.StatusBadRequest, &error.ServerError{
 			Code: http.StatusBadRequest,
-			Msg:  err.Error(),
+			Msg:  error.MISSING_PARAMETER,
 		})
 		return
 	}
@@ -93,7 +93,7 @@ func (handler *ProductHandler) GetByCategoryName(ctx *gin.Context) {
 	if err != nil {
 		ctx.AbortWithError(http.StatusNotFound, &error.ServerError{
 			Code: http.StatusNotFound,
-			Msg:  err.Error(),
+			Msg:  error.RESOURCE_NOT_FOUND,
 		})
 		return
 	}
@@ -105,7 +105,7 @@ func (handler *ProductHandler) Save(ctx *gin.Context) {
 	if err := ctx.ShouldBind(&body); err != nil {
 		ctx.AbortWithError(http.StatusBadRequest, &error.ServerError{
 			Code: http.StatusBadRequest,
-			Msg:  err.Error(),
+			Msg:  error.MISSING_PARAMETER,
 		})
 		return
 	}
@@ -113,7 +113,7 @@ func (handler *ProductHandler) Save(ctx *gin.Context) {
 	if err != nil {
 		ctx.AbortWithError(http.StatusBadRequest, &error.ServerError{
 			Code: http.StatusBadRequest,
-			Msg:  err.Error(),
+			Msg:  "Parse price error",
 		})
 		return
 	}
@@ -127,7 +127,7 @@ func (handler *ProductHandler) Save(ctx *gin.Context) {
 	if err := handler.productUseCase.Create(ctx, product, body.ProductImage, body.ProductCategory); err != nil {
 		ctx.AbortWithError(http.StatusBadRequest, &error.ServerError{
 			Code: http.StatusBadRequest,
-			Msg:  err.Error(),
+			Msg:  error.CREATE_RESOURCE_FAILED,
 		})
 		return
 	}
